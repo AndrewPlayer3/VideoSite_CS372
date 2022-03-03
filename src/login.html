@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <title>Cool Login Page</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- jQuery script used to auto-redirect authenticated sessions -->
+    <script src="/auth_guard.js"></script>
+
+    <!-- Styles -->
+    <style>
+        * {
+            font-family: monospace;
+        }
+
+        .login {
+            display: block;
+            text-align: center;
+        }
+        .ui-widget-header,.ui-state-default, ui-button{  
+            background:crimson;  
+            border: 2px solid brown;  
+            color: white;  
+            font-weight: bold;
+         } 
+
+        .signUpDialog input{
+            margin:  7px 0;
+            border: none;
+            border-bottom: 2px solid grey;
+        } 
+
+        .signUpDialog button{
+            margin-bottom: 4px;
+            position: absolute;
+            bottom: 0;
+            right: 15%;
+            border: none;
+            background-color: crimson;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            width: 70%;
+            transition-duration: 0.4s;
+            font-size: 0.8em;
+            width: 15em;
+            height: 2em;
+        } 
+
+        .signUpDialog button:hover{
+            opacity: 0.7;
+        }
+        .buttons_form {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 6px;
+        }
+
+        label {
+            padding-right: 106px;
+        }
+
+        input {
+            margin-top: 3px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Main login page div -->
+    <div class="login">
+
+        <!-- Heading -->
+        <div class="login_heading">
+            <h1>🛑 Login Here: 🛑</h1>
+            <hr>
+        </div>
+
+        <!-- Login div rather than form for jQuery -->
+        <div class="login_form" style="margin-top: 40px;">
+
+            <!-- Username Input -->
+            <div class="login_form_part input_box">
+                <div>
+                    <label for="username">Username: </label>
+                </div>
+                <input id="username" name="username" type="text" placeholder="Enter Username" required>
+                <p class="login_help_no_uname">
+                    <!-- No username error is placed here -->
+                </p>
+            </div>
+
+            <!-- Password Input -->
+            <div class="login_form_part input_box">
+                <div>
+                    <label for="password">Password: </label>
+                </div>
+                <input id="password" name="password" type="password" placeholder="Enter Password"
+                    class="i_login_check_trigger" required>
+                <p class="login_help_no_pwd">
+                    <!-- No password error is placed here -->
+                </p>
+            </div>
+
+            <div class= "signUpDialog" title = "Sign Up">
+                <input id="sEmail" name="email" placeholder="Email">
+                <input id="sUsrnm" name="username" placeholder="Username">
+                <input id="sPwd" name="password" type="password" placeholder="Password">
+                <input id="sRePwd" name="password" type="password" placeholder="Re-Enter Password">
+                <p class="signup_help">
+                    <!-- Error is placed here -->
+                </p>
+                <button class="b_signup_form_trigger" type="submit">Sign Up!</button>
+            </div>
+
+            <div class="buttons_form">
+                <!-- ResetPwd Button -->
+                <div class="reset_form_part btn" style = "padding-right: 10px;">
+                    <a class="b_reset_check_trigger" href="reset">Forgot Password</a>
+                </div>
+
+                <!-- Signup Button -->
+                <div class="signup_form_part btn">
+                    <a class="b_signup_check_trigger" href="#">Sign Up</a>
+                </div>
+            </div>
+
+            <!-- Login Button -->
+            <div class="login_form_part btn">
+                <button class="b_login_check_trigger" type="submit">Login</button>
+            </div>
+
+            <!-- Login call-to-action and warnings. -->
+            <div class="login_form_part login_help_div">
+                <p class="login_help">Please enter your username and password.</p>
+            </div>
+
+            <!-- jQuery script that renders warnings and verifies login info -->
+            <script name="login-check">
+                function changeDom() {
+
+                    const $no_uname_element = jQuery('p.login_help_no_uname');
+                    const $no_pwd_element = jQuery('p.login_help_no_pwd');
+                    const $login_help_element = jQuery('p.login_help');
+
+                    const clear_no_uname_element = () =>
+                        $no_uname_element.replaceWith(
+                            '<p class="login_help_no_uname"></p>'
+                        );
+                    const clear_no_pwd_element = () =>
+                        $no_pwd_element.replaceWith(
+                            '<p class="login_help_no_pwd"></p>'
+                        );
+
+                    const username = document.getElementById("username").value
+                    const password = document.getElementById("password").value
+
+                    if (!username && !password) {
+                        clear_no_uname_element();
+                        clear_no_pwd_element();
+                        $login_help_element.replaceWith(
+                            '<p class="login_help error">' +
+                                'You need to enter a username and password.' +
+                            '</p>'
+                        );
+                    } else if (!username) {
+                        clear_no_pwd_element();
+                        $no_uname_element.replaceWith(
+                            '<p class="login_help_no_uname error">' +
+                                'You need to enter a username.' +
+                            '</p>'
+                        );
+                    } else if (!password) {
+                        clear_no_uname_element();
+                        $no_pwd_element.replaceWith(
+                            '<p class="login_help_no_pwd error">' +
+                                'You need to enter a Password.' +
+                            '</p>'
+                        );
+                    } else {
+                        $.ajax({
+                            url: 'http://localhost:8080/authenticate',
+                            method: 'POST',
+                            data: {
+                                "username": username,
+                                "password": password
+                            }
+                        }).done(function (data) {
+                            if (data['loginStatus'] === true) { // Redirect if successful login
+                                window.location.href = "/home";
+                            }
+                            else {                             // Give proper error if incorrect login
+                                if (data['lockedOut']) {
+                                    $login_help_element.replaceWith(
+                                        '<p class="login_help error">You have been locked out.</p>'
+                                    );
+                                } else if (data['incorrectAttempts'] === 2) {
+                                    $login_help_element.replaceWith(
+                                        '<p class="login_help error">' +
+                                            'The username or password you entered is incorrect. ' +
+                                            'You have 1 attempt remaining.' +
+                                        '</p>'
+                                    );
+                                } else {
+                                    $login_help_element.replaceWith(
+                                        '<p class="login_help error">' +
+                                            'The username or password you entered is incorrect.' +
+                                        '</p>'
+                                    );
+                                }
+                            }
+                        }).fail(function () {
+                            console.log('BAD POST REQUEST!');
+                        });
+                    }
+                }
+
+                function signUp(){
+                    const $signup_help = jQuery('p.signup_help');
+
+                    const email = document.getElementById("sEmail").value
+                    const username = document.getElementById("sUsrnm").value
+                    const password = document.getElementById("sPwd").value
+                    const repassword = document.getElementById("sRePwd").value
+
+                    // Email Regex, same as used by the HTML5 email type input. -- Based off RFC5322
+                    const email_regex = "^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+
+                    if(!email.match(email_regex)) {
+                        $signup_help.replaceWith(
+                            '<p class="signup_help error">' +
+                                'Enter a valid email.' +
+                            '</p>'
+                        );
+                    } else if (!email){
+                        $signup_help.replaceWith(
+                            '<p class="signup_help error">' +
+                                'Enter Email.' +
+                            '</p>'
+                        );
+                    }
+                    else if (!username){
+                        $signup_help.replaceWith(
+                            '<p class="signup_help error">' +
+                                'Enter Username.' +
+                            '</p>'
+                        );
+                    }
+                    else if (!password){
+                        $signup_help.replaceWith(
+                            '<p class="signup_help error">' +
+                                'Enter Password.' +
+                            '</p>'
+                        );
+                    }
+                    else if (!repassword){
+                        $signup_help.replaceWith(
+                            '<p class="signup_help error">' +
+                                'Re-Type Password.' +
+                            '</p>'
+                        );
+                    }
+                    else if(!(password === repassword)){
+                        $signup_help.replaceWith(
+                            '<p class="signup_help error">' +
+                                'Passwords do not match.' +
+                            '</p>'
+                        );
+                    } else {
+                        $.ajax({
+                            url: 'http://localhost:8080/create-account',
+                            method: 'POST',
+                            data: {
+                                "email": email,
+                                "username": username,
+                                "password": password
+                            }
+                        }).done(function (data) {
+                            if (data['accountCreated'] === true) { // Redirect if successful signup
+                                window.location.href = "/home";
+                            }
+                            else {                             // Give proper error if incorrect signup
+                                if (data['usernameInUse']) {
+                                    $signup_help.replaceWith(
+                                        '<p class="signup_help error">Username is taken. Choose another.</p>'
+                                    );
+                                } else if (data['emailInUse']) {
+                                    $signup_help.replaceWith(
+                                        '<p class="signup_help error">' +
+                                            'The email is in use. ' + 
+                                        '</p>'
+                                    );
+                                }
+                            }
+                        }).fail(function () {
+                            console.log('BAD POST REQUEST!');
+                        });
+                    }
+
+
+                }
+                // Clicking the login button is a trigger
+                $('.b_login_check_trigger').click(function () {
+                    changeDom();
+                });
+
+                // Dialog setup
+                $( ".signUpDialog" ).dialog({  
+                   autoOpen: false,   
+                   hide: "fadeOut",  
+                   show : "fadeIn",  
+                   height: 300,
+                   position: { my: "center", at: "center top", of: window },
+                   close : function(event, ui) {
+                        $("input").val("");
+                   }      
+                }); 
+
+                // Clicking the signup button is a trigger
+                $('.b_signup_check_trigger').click(function () {
+                    $('.signUpDialog').dialog("open");
+                });
+
+                // Clicking the signup button is a trigger
+                $('.b_signup_form_trigger').click(function () {
+                    signUp();
+                });
+
+                // Pressing "enter" in the password box is also a trigger
+                $.fn.pressEnter = function (fn) {
+                    return this.each(function () {
+                        $(this).bind('enterPress', fn);
+                        $(this).keyup(function (e) {
+                            if (e.keyCode === 13) {
+                                $(this).trigger("enterPress");
+                            }
+                        })
+                    });
+                };
+                $('.i_login_check_trigger').pressEnter(function () { changeDom(); })
+            </script>
+        </div>
+    </div>
+</body>
+
+</html
