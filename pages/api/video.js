@@ -2,7 +2,7 @@ import connectDB from '../../middleware/mongodb';
 import Video from '../../models/video';
 
 const handler = async (req, res) => {
-    if (req.method === 'POST') {   // Set Video Information
+    if (req.method === 'POST') {   // Set Video Information | TODO: Only CONTENT_EDITORs should be able to make these requests.
         const { title, storage_location, length, resolution, description, tags } = req.body;  
         try {            
             var video = new Video({
@@ -26,7 +26,7 @@ const handler = async (req, res) => {
         } catch (error) {
             return res.status(500).send(error.message);
         }
-    } else if (req.method === 'GET') {  // Retrieve Video Information
+    } else if (req.method === 'GET') {  // Retrieve Video Information | TODO: Restrict these requests to any logged-in user.
 
     }
 };

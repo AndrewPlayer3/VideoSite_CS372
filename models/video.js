@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 var Schema = mongoose.Schema;
 
 var _metadata = new Schema({
-    length: Number,   // Length of video displayed like on YouTube?
-    resolution: String    // Native Resolution
+    length: Number,     // Length of video displayed like on YouTube?
+    resolution: String  // Native Resolution
 });
 
-var _analytics = new Schema({
-    total_rating: { // Total sum of 0->5 ratings. | NOTE: These all have race conditions.
+var _analytics = new Schema({  // NOTE: These all have race conditions.
+    total_rating: { // Total sum of 0->5 ratings.
         type: Number,
         default: 0
     },
