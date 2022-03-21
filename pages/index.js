@@ -1,12 +1,10 @@
 
-import NavBar from '../components/navbar.js'
-import Footer from '../components/common/Footer'
+import HomePage from '../components/navbar.js'
 
 export default function Home() {
   return (
     <>
-      <NavBar />
-      <Footer />
+      <HomePage />
     </>
   )
 }
