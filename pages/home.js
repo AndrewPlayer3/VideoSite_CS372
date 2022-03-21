@@ -1,5 +1,3 @@
-
-<<<<<<< HEAD
 import NavBar from '../components/navbar.js'
 import Footer from '../components/common/Footer'
 import { useSession, getSession } from "next-auth/react"
@@ -31,14 +29,4 @@ export default function Home() {
         );
     } 
     return <a href='/api/auth/signin'>Signin to Continue</a>
-=======
-import HomePage from '../components/navbar.js'
-
-export default function Home() {
-  return (
-    <>
-      <HomePage />
-    </>
-  )
->>>>>>> 9aa08a2ae42a42ef43c8feb94b923dfefd416d37
 }
