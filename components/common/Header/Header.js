@@ -8,6 +8,7 @@ export default function Header(){
             <title key="title">
                 {config.title}
             </title>
+            <meta name="keywords" content="video streaming site" />
         </Head>
     </div>
     )
