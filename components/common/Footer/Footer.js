@@ -2,7 +2,7 @@ export default function Footer() {
     return (
         <>
         <div>
-        <footer className="text-center text-white bg-gray-800">
+        <footer className="fixed w-full bottom-0 text-center text-white bg-gray-800">
             <div className="container py-6 items-center">
                  <div className="flex justify-evenly items-center">
                     <div className="text-center text-gray-400 pr-16" >

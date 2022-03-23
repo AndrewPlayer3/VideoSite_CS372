@@ -3,7 +3,7 @@ import def from '../public/placeholder.jpeg'
 
 export default function Thumbnail({result}){
     return(
-        <div className='group cursor-pointer mx-6'>
+        <div className='block m-3 cursor-pointer'>
             {/* Each Video Thumbnail display/ Display default thumbnail if there is none in db */}
             <div className='relative'>
                 <Image 
