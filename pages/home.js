@@ -1,5 +1,5 @@
-import NavBar from '../components/navbar.js'
-import Footer from '../components/common/Footer'
+import NavBar from '../components/common/Navbar/Navbar';
+import Footer from '../components/common/Footer';
 import { useSession, getSession } from "next-auth/react"
 import ReactPlayer from 'react-player/file';
 
