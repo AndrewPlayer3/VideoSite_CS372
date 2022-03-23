@@ -1,6 +1,7 @@
 import connectDB from '../../middleware/mongodb';
 import bcrypt from 'bcrypt';
 import User from '../../models/user';
+import { getSession } from 'next-auth/react'
 
 const handler = async (req, res) => {
     if (req.method === 'POST') {
@@ -32,11 +33,19 @@ const handler = async (req, res) => {
         }
     } else if (req.method === 'GET') {
 
-        const { user } = req.body;
+        const session = await getSession({ req });
+    
+        const { user } = session;
+        const email = user.email;
+
+        console.log('Email: ', email);
 
         if (user) {
             try {
-                var userInfo = await User.findOne({ email: user });
+                var userInfo = await User.findOne({ email: email });
+
+                console.log('userinfo: ', userInfo);
+
                 if (userInfo) {
                     return res.status(200).send({ username: userInfo.username, email: userInfo.email, role: userInfo.role })
                 } else {
