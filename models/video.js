@@ -35,6 +35,10 @@ var video = new Schema({
         type: String,
         required: true
     },
+    thumbnail: {
+        type: String,
+        required: true
+    },
     created_at: {
         type: Date,
         default: Date.now,
