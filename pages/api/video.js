@@ -3,8 +3,8 @@ import Video from '../../models/video';
 
 const handler = async (req, res) => {
     if (req.method === 'POST') {   // Set Video Information | TODO: Only CONTENT_EDITORs should be able to make these requests.
-        const { title, storage_location, length, resolution, description, tags } = req.body;  
-        try {            
+        const { title, storage_location, length, resolution, description, tags } = req.body;
+        try {
             var video = new Video({
                 title: title,
                 location: storage_location,
@@ -27,7 +27,24 @@ const handler = async (req, res) => {
             return res.status(500).send(error.message);
         }
     } else if (req.method === 'GET') {  // Retrieve Video Information | TODO: Restrict these requests to any logged-in user.
-
+        const { text_query, tag } = req.body;
+        if (text_query) {
+            const query_results = await Video.find({ "title": { $regex: text_query, $options: 'i' } });
+            if (query_results) {
+                res.status(200).send(query_results);
+            } else {
+                res.status(404).send('No Videos Found.');
+            }
+        } else if (tag) {
+            const query_results = await Video.find({ "tags": { "$in": [tag] } });
+            if (query_results) {
+                res.status(200).send(query_results);
+            } else {
+                res.status(404).send('No Videos Found.');
+            }
+        } else {
+            res.status(422).send('Invalid Request.');
+        }
     }
 };
 
