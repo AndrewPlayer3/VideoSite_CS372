@@ -34,28 +34,31 @@ const handler = async (req, res) => {
     } else if (req.method === 'GET') {
 
         const session = await getSession({ req });
-    
-        const { user } = session;
-        const email = user.email;
 
-        console.log('Email: ', email);
+        try {    
+            const { user } = session;
+        
+            const email = user.email;
 
-        if (user) {
-            try {
-                var userInfo = await User.findOne({ email: email });
+            if (user) {
+                try {
+                    var userInfo = await User.findOne({ email: email });
 
-                console.log('userinfo: ', userInfo);
+                    console.log('userinfo: ', userInfo);
 
-                if (userInfo) {
-                    return res.status(200).send({ username: userInfo.username, email: userInfo.email, role: userInfo.role })
-                } else {
-                    return res.status(404).send('User not found');
+                    if (userInfo) {
+                        return res.status(200).send({ username: userInfo.username, email: userInfo.email, role: userInfo.role })
+                    } else {
+                        return res.status(404).send('User not found');
+                    }
+                } catch (error) {
+                    return res.status(500).send(error.message);
                 }
-            } catch (error) {
-                return res.status(500).send(error.message);
+            } else {
+                res.status(500).send('data_incomplete');
             }
-        } else {
-            res.status(500).send('data_incomplete');
+        } catch (error) {
+            return res.status(200).send({ username: "", email: "", role: ""});
         }
     }
 };
