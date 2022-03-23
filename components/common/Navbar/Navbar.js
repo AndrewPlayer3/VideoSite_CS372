@@ -2,6 +2,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { UserIcon} from '@heroicons/react/outline'
+import Link from 'next/link'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -15,12 +16,14 @@ export default function NavBar() {
           <div className="max-w-7xl mx-auto ">
             <div className="relative flex items-center justify-start h-12">
               <div className="flex items-center justify-start mr-6 sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center">
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    src="favicon.ico"
-                    alt="Logo"
-                  />
+                <div className="flex-shrink-0 flex items-center cursor-pointer">
+                  <Link href='/'>
+                    <img
+                      className="hidden lg:block h-8 w-auto"
+                      src="favicon.ico"
+                      alt="Logo"
+                    />
+                  </Link>
                 </div>
               </div>
               {/* Search Bar and Button */}
@@ -55,11 +58,11 @@ export default function NavBar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="profile"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Profile
