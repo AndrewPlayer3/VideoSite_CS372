@@ -2,21 +2,24 @@ import { useSession, getSession } from "next-auth/react"
 import ReactPlayer from 'react-player/file';
 
 export async function getServerSideProps(context) {
+
+  const location = context.query.loc;
+
   return {
     props: {
-      session: await getSession(context),
+      location: location
     },
   }
 }
 
-export default function Home() {
+export default function Home({ location }) {
     
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
 
     if (session) {
         return (
-            <div className='player-box w-auto h-auto'>
-                <ReactPlayer width='100%' height='100%' controls url='chickens.mp4' />
+            <div className='player-box w-auto h-auto mt-8 ml-8'>
+                <ReactPlayer width='1280px' height='720px' controls url={ location } />
             </div>
         );
     } 
