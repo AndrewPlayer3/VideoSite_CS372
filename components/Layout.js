@@ -1,7 +1,7 @@
 import NavBar from "./common/Navbar/Navbar"
 import Footer from "../components/common/Footer"
 
-export default function Layout({children}){
+export default function Layout({children, pageProps}){
     return(
         <>
             <NavBar />
