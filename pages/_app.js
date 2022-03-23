@@ -9,10 +9,12 @@ export default function MyApp({
 }) {
   return (
     <>
-        <Header />
-        <Layout pageProps={pageProps}>
-          <Component {...pageProps} />
-        </Layout>
+        <SessionProvider session={session}>
+          <Header />
+          <Layout pageProps={pageProps}>
+            <Component {...pageProps} />
+          </Layout>
+        </SessionProvider>
     </>
   )
 }
