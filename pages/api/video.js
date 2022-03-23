@@ -42,10 +42,11 @@ const handler = async (req, res) => {
             } else {
                 res.status(404).send('No Videos Found.');
             }
-        } else {
-            res.status(422).send('Invalid Request.');
         }
+    } else {
+        res.status(422).send('Invalid Request.');
     }
+    // TODO: Delete Request (Based off of Mongo ID for Video)
 };
 
 export default connectDB(handler);
