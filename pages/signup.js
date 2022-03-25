@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Formik, Field, ErrorMessage } from 'formik';
 import { object, string, ref } from "yup";
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react'
 
 
 const RegisterValidation = object().shape({
@@ -25,21 +26,34 @@ export default function SignUp() {
     validationSchema={RegisterValidation}
     onSubmit={async (values, { setSubmitting }) => {
       const res = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           uname: values.username,
           email: values.email,
           pwd: values.password
-        }),
-        method: 'POST'
+        })
       })
       .then(data =>{
         console.log(data);
+        const res = signIn('credentials', {
+          username: values.username,
+          password: values.password,
+          callbackUrl: `${window.location.origin}`,
+        });
+        if (res?.error) {
+          setError(res.error);
+        } else {
+          setError(null);
+        }
+        if (res.url) router.push(res.url);
+        setSubmitting(false);
       })
       .catch((error) => {
         setError(error);
       })
-      if (res.url) router.push(res.url);
-      setSubmitting(false);
     }}
   >
     {(formik) => (
