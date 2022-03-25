@@ -108,6 +108,25 @@ export default function SignUpForm({ csrfToken }) {
                                         <ErrorMessage name="password" />
                                     </div>
                                 </div>
+                                <div className="mb-6">
+                                <label
+                                    htmlFor="confirmPassword"
+                                    className="uppercase text-sm text-gray-600 font-bold"
+                                >
+                                    re-type password
+                                    <Field
+                                    name="confirmPassword"
+                                    aria-label="enter your password"
+                                    aria-required="true"
+                                    type="password"
+                                    className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                                    />
+                                </label>
+
+                                <div className="text-red-600 text-sm">
+                                    <ErrorMessage name="confirmPassword" />
+                                </div>
+                                </div>
                                 <div className="flex-row" role="group" aria-labelledby="checkbox-group">
                                     <label>
                                         <Field type="checkbox" name="viewer" value="viewer" />

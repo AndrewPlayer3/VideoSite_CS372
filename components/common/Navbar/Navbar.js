@@ -3,19 +3,65 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { UserIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
+import { useSession,signOut } from 'next-auth/react'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function NavBar() {
-
-  // orange #D77A61   accents
-  // blue   #223843   background
-  // white  #EFF1F3   background
-  // grey   #DBD3D8   background
-  // peach  #D8B4A0   accent
-
+export default function NavBar({pageProps}) {
+  const {data: session, status} = useSession();
+  const isLoggedIn = status === "authenticated";
+  let MenuItem;
+  if(isLoggedIn){
+    MenuItem = <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50 focus:outline-none">
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="profile"
+                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                    >
+                      Your Profile
+                    </a>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="dashboard"
+                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                    >
+                      Dashboard
+                    </a>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      onClick= {() => signOut()}
+                      href="/"
+                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                    >
+                      Sign out
+                    </a>
+                  )}
+                </Menu.Item>
+              </Menu.Items>
+  }
+  else {
+    MenuItem = <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50 focus:outline-none">
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="login"
+                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                    >
+                      Sign in
+                    </a>
+                  )}
+                </Menu.Item>
+                </Menu.Items>
+  }
   return (
     <Disclosure as="nav" className="bg-[#223843]">
       {({ open }) => (
@@ -72,38 +118,7 @@ export default function NavBar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="profile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
+                  {MenuItem}
                   </Transition>
                 </Menu>
               </div>

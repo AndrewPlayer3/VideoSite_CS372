@@ -84,11 +84,19 @@ export default function LoginForm({ csrfToken }) {
                   </div>
                 </div>
                 <div className="flex items-center justify-center">
-                  <button
+                <button
                     type="submit"
                     className="uppercase text-sm font-bold tracking-wide bg-[#D77A61] text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
                   >
                     {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
+                  </button>
+                  <button
+                    onClick = {() => router.push('/signup')}
+                    name="signup"
+                    type="button"
+                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-blue-400 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
+                  >
+                    sign up
                   </button>
                 </div>
               </div>
