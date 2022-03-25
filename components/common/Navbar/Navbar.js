@@ -79,8 +79,8 @@ export default function NavBar({pageProps}) {
                           alt="Logo"
                         />
                       </div>
-                      <div className='flex items-center justify-end text-xl text-[#EFF1F3] ml-1 mr-1'>
-                        <h1 className="font-sans">Fletnix</h1>
+                      <div className='flex items-end justify-end text-xl text-[#EFF1F3] ml-1 mr-1'>
+                        <h1 className="font-sans font-bold">Fletnix</h1>
                       </div>
                     </div>
                   </Link>
