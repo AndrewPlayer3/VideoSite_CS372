@@ -3,12 +3,12 @@ import Footer from "../components/common/Footer"
 
 export default function Layout({children, pageProps}){
     return(
-        <>
+        <div className='flex-row bg-[#EFF1F3]'>
             <NavBar />
-            <div>
+            <div className='h-screen'>
                 <main>{children}</main>
             </div>
             <Footer />
-        </>
+        </div>
     )
 }
