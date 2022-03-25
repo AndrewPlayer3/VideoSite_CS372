@@ -29,6 +29,10 @@ const handler = async (req, res) => {
         }
     } else if (req.method === 'GET') {  // Retrieve Video Information | TODO: Restrict these requests to any logged-in user.
         const { text_query, tag } = req.body;
+        let id = "";
+        if (req.query.id) {
+            id = req.query.id;
+        }
         if (text_query) {
             const query_results = await Video.find({ "title": { $regex: text_query, $options: 'i' } });
             if (query_results) {
@@ -39,6 +43,14 @@ const handler = async (req, res) => {
         } else if (tag) {
             const query_results = await Video.find({ "tags": { "$in": [tag] } });
             if (query_results) {
+                return res.status(200).send(query_results);
+            } else {
+                return res.status(404).send('No Videos Found.');
+            }
+        } else if (id) {
+            const query_results = await Video.findById(id);
+            if (query_results) {
+                console.log(query_results);
                 return res.status(200).send(query_results);
             } else {
                 return res.status(404).send('No Videos Found.');
