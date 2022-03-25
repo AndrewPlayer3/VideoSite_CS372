@@ -89,7 +89,7 @@ export default function SignUpForm({ csrfToken }) {
                                         <ErrorMessage name="email" />
                                     </div>
                                 </div>
-                                <div className="mb-6">
+                                <div className="mb-4">
                                     <label
                                         htmlFor="password"
                                         className="uppercase text-sm text-gray-600 font-bold"
@@ -108,7 +108,7 @@ export default function SignUpForm({ csrfToken }) {
                                         <ErrorMessage name="password" />
                                     </div>
                                 </div>
-                                <div className="mb-6">
+                                <div className="mb-4">
                                 <label
                                     htmlFor="confirmPassword"
                                     className="uppercase text-sm text-gray-600 font-bold"
@@ -127,19 +127,25 @@ export default function SignUpForm({ csrfToken }) {
                                     <ErrorMessage name="confirmPassword" />
                                 </div>
                                 </div>
-                                <div className="flex-row" role="group" aria-labelledby="checkbox-group">
-                                    <label>
-                                        <Field type="checkbox" name="viewer" value="viewer" />
-                                        Viewer
-                                    </label>
-                                    <label>
-                                        <Field type="checkbox" name="content_editor" value="content_editor" />
-                                        Content Editor
-                                    </label>
-                                    <label>
-                                        <Field type="checkbox" name="content_manager" value="content_manager" />
-                                        Content Manager 
-                                    </label>
+                                <div className="flex-row mb-4" role="group" aria-labelledby="checkbox-group">
+                                    <div>
+                                        <label className='text-[#223843]'>
+                                            <Field type="checkbox" name="viewer" value="viewer" />
+                                            Viewer
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className='text-[#223843]'>
+                                            <Field type="checkbox" name="content_editor" value="content_editor" />
+                                            Content Editor
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className='text-[#223843]'>
+                                            <Field type="checkbox" name="content_manager" value="content_manager" />
+                                            Content Manager 
+                                        </label>
+                                    </div>
                                 </div>
                                 <div className="flex items-center justify-center">
                                     <button
