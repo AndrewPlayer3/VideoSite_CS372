@@ -1,6 +1,7 @@
 import testuser from '../pages/api/testuser.json'
 import { PencilIcon } from '@heroicons/react/solid'
 import { getSession, useSession } from 'next-auth/react'
+import LoginForm from "../components/LoginForm";
 
 export async function getServerSideProps(context) {
 
@@ -83,6 +84,11 @@ export default function profile({ user }) {
             </div>
         )
     }
-    return <a href='/api/auth/signin'>Signin to Continue</a>
+
+    return ( 
+        <div className="h-auto w-auto mt-10 flex item-center justify-center">
+           <LoginForm />
+        </div>
+    )
 }
 
