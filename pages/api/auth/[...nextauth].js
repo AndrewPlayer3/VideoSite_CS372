@@ -39,6 +39,7 @@ export default connectDB(NextAuth({
     secret: process.env.JWT_SECRET,
     pages: {
         signIn: '/login',
+        newUser: '/signup'
     },
     // Enable debug messages in the console if you are having problems
     debug: process.env.NODE_ENV === 'development',
