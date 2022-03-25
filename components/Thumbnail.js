@@ -1,26 +1,37 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import def from '../public/placeholder.jpeg'
+import DisplayRating from './DisplayRating'
 
 
 export default function Thumbnail({result}){
+
+    const length = new Date(result['metadata'].length * 1000).toISOString().substr(11, 8);
+
     return(
         <div className='block m-3 cursor-pointer'>
             {/* Each Video Thumbnail display/ Display default thumbnail if there is none in db */}
-            <div className='relative'>
-                <Link href={{pathname: '/video', query: {"loc": result['location']}}}>
+            <Link href={{pathname: '/video', query: {"id": result['_id']}}}>
+                <div className='relative flex h-auto w-auto shadow-xl border border-solid border-[#223843] rounded-sm'>
                     <Image 
                         layouts='fill'
                         src={result['thumbnail']}
-                        height={1080}
-                        width={1920}
+                        height='1080'
+                        width='1920'
                     />
-                </Link>
-                <p className='absolute bottom-1 right-0 text-white text-xs bg-black'>{result['metadata'].length}</p>
+                    <div className='absolute bottom-0 right-0 opacity-70'>
+                        <DisplayRating rating={result['analytics'].total_rating} />
+                    </div>
+                </div>
+            </Link>
+            <div className='flex w-full h-auto items-start justify-start'>
+                <div className='flex w-full h-auto items-center justify-start'>
+                    <p className='font-sans font-bold text-[#223843]'>{result['title']}</p>
+                </div>
+                <div className='flex w-auto h-auto items-center justify-end'>
+                    <p className='w-full font-sans font-bold text-[#C8C8C8]'>{length}</p>
+                </div>
             </div>
-            <div>
-                <p>{result['title']}</p>
-            </div>
-        </div>
+        </div> 
     )
 }
