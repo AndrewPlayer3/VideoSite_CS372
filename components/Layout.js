@@ -5,13 +5,13 @@ export default function Layout({children, pageProps}){
     let login = (children.type.name === "SignIn") || (children.type.name === "SignUp")
     if(!login){
         return(
-            <>
+            <div className='flex-row bg-[#EFF1F3]'>
                 <NavBar user={pageProps}/>
-                <div className='min-h-screen bg-[#EFF1F3]'>
+                <div className='h-screen'>
                     <main>{children}</main>
                 </div>
                 <Footer />
-            </>
+            </div>
         )
     }
     else{

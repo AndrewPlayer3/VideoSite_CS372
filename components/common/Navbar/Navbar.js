@@ -63,7 +63,7 @@ export default function NavBar({pageProps}) {
                 </Menu.Items>
   }
   return (
-    <Disclosure as="nav" className="bg-[#223843]">
+    <Disclosure as="nav" className="h-auto bg-[#223843]">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto ">

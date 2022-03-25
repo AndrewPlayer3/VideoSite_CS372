@@ -35,7 +35,7 @@ export default function Home({ title, location }) {
     if (session) {
         return (
             <>
-                <div className='flex items-top justify-top video w-auto h-auto mt-8 ml-8'>
+                <div className='flex items-top justify-top video w-auto h-full mt-8 ml-8'>
                     <div className='flex player-box shadow-2xl border border-solid border-[#223843]'>
                         <ReactPlayer width='1280px' height='720px' controls url={location} />
                     </div>
