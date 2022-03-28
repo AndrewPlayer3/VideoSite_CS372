@@ -2,68 +2,72 @@ import { UserIcon, VideoCameraIcon, PresentationChartLineIcon } from '@heroicons
 import Link from 'next/link'
 import profile from './profile'
 
-function handleClick(index, e){
-    console.log(e)
+export async function getServerSideProps(context) {
+
+    const session = await getSession(context);
+
+    const res = await fetch('http://localhost:3000/api/user', {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            cookie: context.req.headers.cookie,
+        },
+    });
+
+    const data = await res.json();
+
+    const user = {
+        username: data.username,
+        email: data.email,
+        role: data.role
+    }
+
+    return {
+        props: {
+            user: user
+        },
+    }
 }
 
-export default function Dashboard() {
+export default function Dashboard({user}) {
     return( 
-        <div class="flex flex-row h-full">
-              <nav class="bg-gray-500 w-20  justify-between flex flex-col ">
-                <div class="mt-10 mb-10">
-                    Hello, name
-                    <div class="mt-10">
-                        <ul>
-                        <li class="mb-6">
-                            <a href="#" onClick={profile}>
-                            <span className="bg-red-600">
+        <div className="flex flex-col md:flex-row">
+              <nav>
+                <div className="bg-gray-500 shadow-xl h-16 fixed bottom-0 md:relative md:h-screen md:w-48 w-full">
+                    <div className="content-center text-left justify-between md:w-48 md:mt-12 md:fixed md:left-0 md:top-0 md:content-start">
+                        <ul className= "list-reset flex flex-row pt-3 text-center md:flex-col md:py-3 md:px-2 md:text-left">
+                        <li className="m-8 flex-1">
+                            Hello, name
+                        </li>
+                        <li className="mb-4 flex-1">
+                            <a href="#" onClick={profile} className="flex items-center w-full  py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500"> 
                                 <UserIcon className="h-6 w-6" aria-hidden="true"/>
-                                Profile
-                            </span>
+                                <span className="pb-1 ml-3 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
+                                    Profile
+                                </span>
                             </a>
                         </li>
-                        <li class="mb-6">
-                            <a href="#" onClick={handleClick('content')}>
-                            <span className="bg-red-600">
+                        <li className="mb-4 flex-1">
+                            <a href="#"  className="flex items-center w-full py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
                                 <VideoCameraIcon className="h-6 w-6" aria-hidden="true"/>
-                                Content
-                            </span>
+                                <span className="pb-1 ml-3 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
+                                    Content
+                                 </span>
                             </a>
                         </li>
-                        <li class="mb-6">
-                            <Link href="/dashboard/analytics">
-                            <span className="bg-red-600">
+                        <li className="mb-4 flex-1">
+                            <a href="/dashboard/analytics" className="flex items-center w-full  py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-black border-b-2 border-gray-800 hover:border-purple-500">
                                 <PresentationChartLineIcon className="h-6 w-6" aria-hidden="true"/>
-                                Analytics
-                            </span>
-                            </Link>
+                                <span className="pb-1 ml-3 md:pb-0 text-xs md:text-base block md:inline-block">
+                                    Analytics
+                                </span>
+                            </a>
                         </li>
                         </ul>
                     </div>
-                    </div>
-                    <div class="mb-4">
-                    <a href="#">
-                        <span>
-                        <svg
-                            class="fill-current h-5 w-5 text-gray-300 mx-auto hover:text-red-500"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                            d="M13 4.00894C13.0002 3.45665 12.5527 3.00876 12.0004 3.00854C11.4481 3.00833 11.0002 3.45587 11 4.00815L10.9968 12.0116C10.9966 12.5639 11.4442 13.0118 11.9965 13.012C12.5487 13.0122 12.9966 12.5647 12.9968 12.0124L13 4.00894Z"
-                            fill="currentColor"
-                            />
-                            <path
-                            d="M4 12.9917C4 10.7826 4.89541 8.7826 6.34308 7.33488L7.7573 8.7491C6.67155 9.83488 6 11.3349 6 12.9917C6 16.3054 8.68629 18.9917 12 18.9917C15.3137 18.9917 18 16.3054 18 12.9917C18 11.3348 17.3284 9.83482 16.2426 8.74903L17.6568 7.33481C19.1046 8.78253 20 10.7825 20 12.9917C20 17.41 16.4183 20.9917 12 20.9917C7.58172 20.9917 4 17.41 4 12.9917Z"
-                            fill="currentColor"
-                            />
-                        </svg>
-                        </span>
-                    </a>
                 </div>
             </nav>
-            <div class="px-16 py-4 text-gray-700 bg-gray-200 h-screen w-screen">
+            <div class="flex-1 pb-24 h-screen w-screen">
             </div>
         </div>
     )

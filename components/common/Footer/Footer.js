@@ -1,9 +1,8 @@
 export default function Footer() {
     return (
         <>
-            <div>
-                <footer className="flex fixed w-screen h-14 bottom-0 items-center justify-center text-center text-white bg-[#223843]">
-                    <div className="flex w-screen justify-between items-center">
+                <footer className="flex items-center absolute inset-x-0 h-14 -bottom-14 p-auto text-white bg-[#223843]">
+                    <div className="flex justify-between w-screen">
                         <div className='flex w-full items-center justify-start ml-8'>
                             <h1 className='opacity-10'>
                                 © 2021 Copyright: MIT
@@ -118,7 +117,6 @@ export default function Footer() {
                         </div>
                     </div>
                 </footer>
-            </div>
         </>
     )
 }
