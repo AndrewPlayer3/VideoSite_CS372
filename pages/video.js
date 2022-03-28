@@ -21,6 +21,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            id: id,
             title: data.title,
             location: data.location,
             rating: 0
@@ -28,7 +29,7 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default function Home({ title, location }) {
+export default function Home({ title, location, id}) {
 
     const { data: session } = useSession()
 
@@ -45,7 +46,7 @@ export default function Home({ title, location }) {
                                 <h1 className='flex text-2xl text-white'> { title } </h1>
                             </div>
                             <div className='flex mr-8 w-full items-start justify-end'>
-                                <Rating />
+                                <Rating video_id={id} />
                             </div>
                         </div>
                         <div>
