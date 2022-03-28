@@ -28,7 +28,7 @@ const handler = async (req, res) => {
             return res.status(500).send(error.message);
         }
     } else if (req.method === 'GET') {  // Retrieve Video Information | TODO: Restrict these requests to any logged-in user.
-        const { text_query, tag } = req.body;
+        const { text_query, tag } = req.query;
         let id = "";
         if (req.query.id) {
             id = req.query.id;
