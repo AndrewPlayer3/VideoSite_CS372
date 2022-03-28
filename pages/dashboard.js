@@ -2,11 +2,34 @@ import { UserIcon, VideoCameraIcon, PresentationChartLineIcon } from '@heroicons
 import Link from 'next/link'
 import profile from './profile'
 
-function handleClick(index, e){
-    console.log(e)
+export async function getServerSideProps(context) {
+
+    const session = await getSession(context);
+
+    const res = await fetch('http://localhost:3000/api/user', {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            cookie: context.req.headers.cookie,
+        },
+    });
+
+    const data = await res.json();
+
+    const user = {
+        username: data.username,
+        email: data.email,
+        role: data.role
+    }
+
+    return {
+        props: {
+            user: user
+        },
+    }
 }
 
-export default function Dashboard() {
+export default function Dashboard({user}) {
     return( 
         <div className="flex flex-col md:flex-row">
               <nav>
@@ -25,7 +48,7 @@ export default function Dashboard() {
                             </a>
                         </li>
                         <li className="mb-4 flex-1">
-                            <a href="#" onClick={handleClick('content')} className="flex items-center w-full py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
+                            <a href="#"  className="flex items-center w-full py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
                                 <VideoCameraIcon className="h-6 w-6" aria-hidden="true"/>
                                 <span className="pb-1 ml-3 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">
                                     Content
