@@ -33,9 +33,8 @@ export async function getServerSideProps(context) {
 {/* Get info from login session */ }
 export default function profile({ user }) {
 
-    const { data: session } = useSession();
-
-    if (session) {
+    //const { data: session } = useSession();
+    if (user.username !== '') {
         
         const { username, email, role } = user;
         
