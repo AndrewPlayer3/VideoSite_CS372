@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
         <>
-                <footer className="flex items-center absolute inset-x-0 h-14 -bottom-14 p-auto text-white bg-[#223843]">
+                <footer className="flex items-center absolute inset-x-0 h-14 p-auto text-white bg-[#223843]">
                     <div className="flex justify-between w-screen">
                         <div className='flex w-full items-center justify-start ml-8'>
                             <h1 className='opacity-10'>
