@@ -1,10 +1,11 @@
 import { UserIcon, VideoCameraIcon, PresentationChartLineIcon } from '@heroicons/react/outline'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import profile from './profile'
+import { getSession, useSession } from 'next-auth/react'
 
 export async function getServerSideProps(context) {
 
-    const session = await getSession(context);
+    const { data: session, status } = getSession()
 
     const res = await fetch('http://localhost:3000/api/user', {
         method: 'GET',
@@ -30,6 +31,13 @@ export async function getServerSideProps(context) {
 }
 
 export default function Dashboard({user}) {
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    if(status === 'unauthenticated'){
+        router.push('login');
+    }
+    
     return( 
         <div className="flex flex-col md:flex-row">
               <nav>
@@ -37,7 +45,7 @@ export default function Dashboard({user}) {
                     <div className="content-center text-left justify-between md:w-48 md:mt-12 md:fixed md:left-0 md:top-0 md:content-start">
                         <ul className= "list-reset flex flex-row pt-3 text-center md:flex-col md:py-3 md:px-2 md:text-left">
                         <li className="m-8 flex-1">
-                            Hello, name
+                            Hello, {user.username}
                         </li>
                         <li className="mb-4 flex-1">
                             <a href="#" onClick={profile} className="flex items-center w-full  py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500"> 
