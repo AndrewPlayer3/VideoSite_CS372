@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useSession,signOut } from 'next-auth/react'
 import Results from '../../Results'
 import { useState, useEffect } from 'react'
+import Profile from '../../../pages/profile'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
