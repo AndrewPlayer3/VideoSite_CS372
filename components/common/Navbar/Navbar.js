@@ -12,12 +12,32 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function NavBar({pageProps}) {
+export async function getServerSideProps(context) {
+
+  const { data: session, status } = getSession()
+
+  const res = await fetch('http://localhost:3000/api/user', {
+      method: 'GET',
+      headers: {
+          "Content-Type": "application/json",
+          cookie: context.req.headers.cookie,
+      },
+  });
+
+  const data = await res.json();
+
+  return {
+      props: {
+          user: data.role
+      },
+  }
+}
+
+export default function NavBar({pageProps, user}) {
   const {data: session, status} = useSession();
   const isLoggedIn = status === "authenticated";
   const [input, setInput] = useState('');
   let MenuItem;
-
   function onKeyDown(e) {
     if (e.key === 'Enter') {
       onSubmit(e);
@@ -33,20 +53,10 @@ export default function NavBar({pageProps}) {
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="profile"
+                      href={user.user.role.viewer ? "profile" : "dashboard"}
                       className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                     >
-                      Your Profile
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="dashboard"
-                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                    >
-                      Dashboard
+                      {user.user.role.viewer ? "Profle" : "Dashboard"}
                     </a>
                   )}
                 </Menu.Item>
