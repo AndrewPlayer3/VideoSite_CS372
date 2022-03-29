@@ -53,10 +53,10 @@ export default function NavBar({pageProps, user}) {
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href={user.user.role.viewer ? "profile" : "dashboard"}
+                      href={user.viewer ? "profile" : "dashboard"}
                       className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                     >
-                      {user.user.role.viewer ? "Profle" : "Dashboard"}
+                      {user.viewer ? "Profle" : "Dashboard"}
                     </a>
                   )}
                 </Menu.Item>
