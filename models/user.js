@@ -22,7 +22,11 @@ const user = new Schema({
         },
         content_editor: Boolean,
         content_manager: Boolean
-    }
+    },
+    ratings: [{
+        video_id: String,
+        rating: Number
+    }]
 });
 
 mongoose.models = {};
