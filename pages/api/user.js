@@ -6,20 +6,20 @@ import { getSession } from 'next-auth/react'
 const handler = async (req, res) => {
     if (req.method === 'POST') {
         // Check if name, email or password is provided
-        const { uname, email, pwd } = req.body;
-        if (uname && email && pwd) {
+        const { username, email, password, roles } = JSON.parse(req.body);
+        if (username && email && password) {
             try {
                 // Hash password to store it in DB
                 const salt_rounds = 10;
-                var passwordhash = await bcrypt.hash(pwd, salt_rounds);
+                var passwordhash = await bcrypt.hash(password, salt_rounds);
                 var user = new User({
-                    username: uname,
+                    username: username,
                     email: email,
                     password: passwordhash,
                     role: {
                         viewer: true,
-                        content_editor: false,
-                        content_manager: false
+                        content_editor: roles.content_editor,
+                        content_manager: roles.content_manager
                     }
                 });
                 // Create new user

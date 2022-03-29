@@ -11,7 +11,7 @@ export default function SignUpForm({ csrfToken }) {
     return (
         <>
             <Formik
-                initialValues={{ username: '', password: '', }}
+                initialValues={{ username: '', password: '', email: '', content_editor: false, content_manager: false}}
                 validationSchema={Yup.object({
                     email: Yup.string().required('Please enter your email   '),
                     username: Yup.string().required('Please enter a username   '),
@@ -20,14 +20,17 @@ export default function SignUpForm({ csrfToken }) {
                 onSubmit={async (values, { setSubmitting }) => {
                     const res = await fetch('http://localhost:3000/api/user', {
                         method: 'POST',
-                        body: {
+                        body: JSON.stringify({
                             redirect: false,
                             username: values.username,
                             email: values.email,
                             password: values.password,
-                            roles: values.roles,
+                            roles: {
+                                content_editor: values.content_editor,
+                                content_manager: values.content_manager
+                            },
                             callbackUrl: `${window.location.origin}`,
-                        }
+                        })
                     });
                     if (res?.error) {
                         setError(res.error);
