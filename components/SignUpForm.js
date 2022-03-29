@@ -18,6 +18,7 @@ export default function SignUpForm({ csrfToken }) {
                     password: Yup.string().required('Please enter a password   '),
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
+                    console.log(JSON.stringify(values));
                     const res = await fetch('http://localhost:3000/api/user', {
                         method: 'POST',
                         body: JSON.stringify({
@@ -26,6 +27,7 @@ export default function SignUpForm({ csrfToken }) {
                             email: values.email,
                             password: values.password,
                             roles: {
+                                viewer: true,
                                 content_editor: values.content_editor,
                                 content_manager: values.content_manager
                             },
@@ -36,8 +38,8 @@ export default function SignUpForm({ csrfToken }) {
                         setError(res.error);
                     } else {
                         setError(null);
+                        router.push('http://localhost:3000/api/auth/signin');
                     }
-                    if (res.url) router.push(res.url);
                     setSubmitting(false);
                 }}
             >
@@ -112,43 +114,35 @@ export default function SignUpForm({ csrfToken }) {
                                     </div>
                                 </div>
                                 <div className="mb-4">
-                                <label
-                                    htmlFor="confirmPassword"
-                                    className="uppercase text-sm text-gray-600 font-bold"
-                                >
-                                    re-type password
-                                    <Field
-                                    name="confirmPassword"
-                                    aria-label="enter your password"
-                                    aria-required="true"
-                                    type="password"
-                                    className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                                    />
-                                </label>
+                                    <label
+                                        htmlFor="confirmPassword"
+                                        className="uppercase text-sm text-gray-600 font-bold"
+                                    >
+                                        re-type password
+                                        <Field
+                                        name="confirmPassword"
+                                        aria-label="enter your password"
+                                        aria-required="true"
+                                        type="password"
+                                        className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                                        />
+                                    </label>
 
-                                <div className="text-red-600 text-sm">
-                                    <ErrorMessage name="confirmPassword" />
+                                    <div className="text-red-600 text-sm">
+                                        <ErrorMessage name="confirmPassword" />
+                                    </div>
                                 </div>
+                                <div>
+                                    <label className='text-[#223843]'>
+                                        <Field type="checkbox" name="content_editor" />
+                                        Content Editor
+                                    </label>
                                 </div>
-                                <div className="flex-row mb-4" role="group" aria-labelledby="checkbox-group">
-                                    <div>
-                                        <label className='text-[#223843]'>
-                                            <Field type="checkbox" name="viewer" value="viewer" />
-                                            Viewer
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label className='text-[#223843]'>
-                                            <Field type="checkbox" name="content_editor" value="content_editor" />
-                                            Content Editor
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label className='text-[#223843]'>
-                                            <Field type="checkbox" name="content_manager" value="content_manager" />
-                                            Content Manager 
-                                        </label>
-                                    </div>
+                                <div className='mb-4'>
+                                    <label className='text-[#223843]'>
+                                        <Field type="checkbox" name="content_manager" />
+                                        Content Manager 
+                                    </label>
                                 </div>
                                 <div className="flex items-center justify-center">
                                     <button
