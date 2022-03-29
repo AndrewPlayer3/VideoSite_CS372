@@ -11,11 +11,18 @@ export default function SignUpForm({ csrfToken }) {
     return (
         <>
             <Formik
-                initialValues={{ username: '', password: '', email: '', content_editor: false, content_manager: false}}
+                initialValues={{ username: '', password: '', confirmpassword: '', email: '', content_editor: false, content_manager: false}}
                 validationSchema={Yup.object({
                     email: Yup.string().required('Please enter your email   '),
                     username: Yup.string().required('Please enter a username   '),
                     password: Yup.string().required('Please enter a password   '),
+                    confirmpassword: Yup.string().when("password", {
+                        is: val => (val && val.length > 0 ? true : false),
+                        then: Yup.string().oneOf(
+                          [Yup.ref("password")],
+                          "Passwords do not match"
+                        )
+                      })
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
                     console.log(JSON.stringify(values));
@@ -115,12 +122,12 @@ export default function SignUpForm({ csrfToken }) {
                                 </div>
                                 <div className="mb-4">
                                     <label
-                                        htmlFor="confirmPassword"
+                                        htmlFor="confirmpassword"
                                         className="uppercase text-sm text-gray-600 font-bold"
                                     >
                                         re-type password
                                         <Field
-                                        name="confirmPassword"
+                                        name="confirmpassword"
                                         aria-label="enter your password"
                                         aria-required="true"
                                         type="password"
@@ -129,7 +136,7 @@ export default function SignUpForm({ csrfToken }) {
                                     </label>
 
                                     <div className="text-red-600 text-sm">
-                                        <ErrorMessage name="confirmPassword" />
+                                        <ErrorMessage name="confirmpassword" />
                                     </div>
                                 </div>
                                 <div>
