@@ -32,10 +32,10 @@ export default function NavBar({ user }) {
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href='profile'//{user.viewer ? "profile" : "dashboard"}
+                      href='/dashboard'//{user.viewer ? "profile" : "dashboard"}
                       className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                     >
-                      Profile
+                      Dashboard
                     </a>
                   )}
                 </Menu.Item>
@@ -57,7 +57,7 @@ export default function NavBar({ user }) {
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="login"
+                      href="/login"
                       className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                     >
                       Sign in
