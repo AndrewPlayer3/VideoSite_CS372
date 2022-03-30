@@ -27,13 +27,6 @@ export async function getServerSideProps(context) {
 
 export default function Content({videos}) {
     console.log("Videos: ", videos);
-    if (videos) {
-        return (
-            <div className='flex w-full h-full mt-8 items-center justify-center'>
-                <h1 className="text-2xl">Sorry, we couldn't find any videos matching that search.</h1>
-            </div>
-        )
-    }
     return (
         <>
             <div className="flex flex-col overflow-clip md:flex-row">
@@ -65,6 +58,7 @@ export default function Content({videos}) {
                             <button className="px-4 py-2 text-white bg-green-500 rounded shadow-xl">Upload</button>
                         </div>
                     </div>
+                    {videos == undefined ? 
                     <div class="block h-2/4 w-full">
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -114,6 +108,7 @@ export default function Content({videos}) {
                             </div>
                         </div>
                     </div>
+                    : <h1 className="text-2xl">No videos to display.</h1>}
                 </div>
             </div>
         </>
