@@ -2,6 +2,7 @@ import testuser from '../pages/api/testuser.json'
 import { PencilIcon } from '@heroicons/react/solid'
 import { getSession, useSession } from 'next-auth/react'
 import LoginForm from "../components/LoginForm";
+import Layout   from "../components/Layout.js"
 
 export async function getServerSideProps(context) {
 
@@ -42,6 +43,7 @@ export default function profile({ user }) {
         if (role.viewer) roles += "Viewer ";
         if (role.content_editor) roles += "Content_Editor ";
         if (role.content_manager) roles += "Content_Manager ";
+
         
         return (
             <div className='flex mt-8 h-auto w-auto items-center justify-center'>
@@ -91,3 +93,4 @@ export default function profile({ user }) {
     )
 }
 
+profile.layout = Layout

@@ -1,5 +1,5 @@
 import Results from '../components/Results.js'
-import testjson from '../pages/api/test.json'
+import Layout   from "../components/Layout.js"
 
 export async function getServerSideProps(context) {
 
@@ -44,3 +44,5 @@ export default function Home({ videos }) {
         </>
     )
 }
+
+Home.layout = Layout

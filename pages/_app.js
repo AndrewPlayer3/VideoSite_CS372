@@ -1,17 +1,17 @@
 import { SessionProvider } from "next-auth/react"
 import Header from "../components/common/Header"
-import Layout   from "../components/Layout.js"
 import '../styles/globals.css'
 
 export default function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }) {
+  const Layout = (Component.layout) || (({children}) => <>{children}</>);
   return (
     <>
         <SessionProvider session={session}>
           <Header />
-          <Layout pageProps={pageProps}>
+          <Layout>
             <Component {...pageProps} />
           </Layout>
         </SessionProvider>
