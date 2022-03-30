@@ -9,7 +9,7 @@ export default function LoginForm({ csrfToken }) {
   const [error, setError] = useState(null);
 
   return (
-    <>
+    <div className="flex h-full items-center justify-center bg-[#223843]">
       <Formik
         initialValues={{ username: '', password: '', }}
         validationSchema={Yup.object({
@@ -34,7 +34,7 @@ export default function LoginForm({ csrfToken }) {
       >
         {(formik) => (
           <form onSubmit={formik.handleSubmit}>
-            <div className="flex flex-col items-center justify-center py-2">
+            <div className="flex flex-col items-center justify-center py-2 rounded-lg bg-[#EFF1F3] shadow-xl">
               <div className="px-8 pt-6 pb-8 mb-4">
                 <input
                   name="csrfToken"
@@ -94,7 +94,7 @@ export default function LoginForm({ csrfToken }) {
                     onClick = {() => router.push('/signup')}
                     name="signup"
                     type="button"
-                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-blue-400 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
+                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-[#223843] text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
                   >
                     sign up
                   </button>
@@ -104,7 +104,7 @@ export default function LoginForm({ csrfToken }) {
           </form>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 

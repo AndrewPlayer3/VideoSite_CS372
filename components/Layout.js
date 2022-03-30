@@ -5,7 +5,7 @@ export default function Layout({children, pageProps}){
     return(
         <div className='flex-row bg-[#EFF1F3]'>
             <NavBar />
-            <div className='h-screen w-auto'>
+            <div className='h-screen bg-[#EFF1F3]'>
                 <main>{children}</main>
             </div>
             <Footer />

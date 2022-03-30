@@ -9,7 +9,7 @@ export default function SignUpForm({ csrfToken }) {
     const [error, setError] = useState(null);
 
     return (
-        <>
+        <div className="flex h-full items-center justify-center bg-[#223843]">
             <Formik
                 initialValues={{ username: '', password: '', confirmpassword: '', email: '', content_editor: false, content_manager: false}}
                 validationSchema={Yup.object({
@@ -19,10 +19,10 @@ export default function SignUpForm({ csrfToken }) {
                     confirmpassword: Yup.string().when("password", {
                         is: val => (val && val.length > 0 ? true : false),
                         then: Yup.string().oneOf(
-                          [Yup.ref("password")],
-                          "Passwords do not match"
+                        [Yup.ref("password")],
+                        "Passwords do not match"
                         )
-                      })
+                    })
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
                     console.log(JSON.stringify(values));
@@ -52,7 +52,7 @@ export default function SignUpForm({ csrfToken }) {
             >
                 {(formik) => (
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="flex flex-col items-center justify-center py-2">
+                        <div className="flex flex-col items-center justify-center py-2 rounded-lg bg-[#EFF1F3] shadow-xl">
                             <div className="px-8 pt-6 pb-8 mb-4">
                                 <input
                                     name="csrfToken"
@@ -141,14 +141,26 @@ export default function SignUpForm({ csrfToken }) {
                                 </div>
                                 <div>
                                     <label className='text-[#223843]'>
-                                        <Field type="checkbox" name="content_editor" />
-                                        Content Editor
+                                        <div className="flex">
+                                            <div className="mr-1">
+                                                <Field type="checkbox" name="content_editor" />
+                                            </div>
+                                            <div>
+                                                Content Editor
+                                            </div>
+                                        </div>
                                     </label>
                                 </div>
                                 <div className='mb-4'>
                                     <label className='text-[#223843]'>
-                                        <Field type="checkbox" name="content_manager" />
-                                        Content Manager 
+                                        <div className="flex">
+                                            <div className="mr-1">
+                                                <Field type="checkbox" name="content_manager" /> 
+                                            </div>
+                                            <div>
+                                                Content Manager 
+                                            </div>
+                                        </div>
                                     </label>
                                 </div>
                                 <div className="flex items-center justify-center">
@@ -164,7 +176,7 @@ export default function SignUpForm({ csrfToken }) {
                     </form>
                 )}
             </Formik>
-        </>
+        </div>
     );
 }
 

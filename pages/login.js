@@ -3,6 +3,8 @@ import LoginForm from '../components/LoginForm'
 
 export default function Login({pageProps}) {
     return(
-        <LoginForm />
+        <div className="h-screen bg-[#EFF1F3]">
+            <LoginForm />
+        </div>
     )
 }
