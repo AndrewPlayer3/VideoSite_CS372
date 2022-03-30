@@ -12,19 +12,22 @@ export default function Thumbnail({result}){
         <div className='bg-[#EFF1F3]'>
             <div className='block m-3 cursor-pointer'>
                 {/* Each Video Thumbnail display/ Display default thumbnail if there is none in db */}
-                <Link href={{pathname: '/video', query: {"id": result['_id']}}}>
-                    <div className='relative flex h-auto w-auto shadow-xl border border-solid border-[#223843] rounded-sm'>
-                        <Image 
-                            layouts='fill'
-                            src={result['thumbnail']}
-                            height='1080'
-                            width='1920'
-                        />
-                        <div className='absolute bottom-0 right-0 opacity-70'>
-                            <DisplayRating rating={result['analytics'].total_rating} />
+                <div className="drop-shadow-xl">
+                    <Link href={{pathname: '/video', query: {"id": result['_id']}}}>
+                        <div className='relative flex h-auto w-auto rounded-md border border-opacity-20 border-[#223843]'>
+                            <Image 
+                                layouts='fill'
+                                src={result['thumbnail']}
+                                height='1080'
+                                width='1920'
+                                className="rounded-md"
+                            />
+                            <div className='absolute bottom-0 right-0 opacity-70'>
+                                <DisplayRating rating={result['analytics'].total_rating} />
+                            </div>
                         </div>
-                    </div>
-                </Link>
+                    </Link>
+                </div>
                 <div className='flex w-full h-auto items-start justify-start'>
                     <div className='flex w-full h-auto items-center justify-start'>
                         <p className='font-sans font-bold text-[#223843]'>{result['title']}</p>

@@ -7,6 +7,6 @@ module.exports = {
     JWT_SECRET: 'VerySecretString'
   },
   images: {
-    domains: ["i.imgur.com"],
+    domains: ["i.imgur.com", "i.ytimg.com"],
   }
 }

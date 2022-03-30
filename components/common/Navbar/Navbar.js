@@ -67,18 +67,18 @@ export default function NavBar({ user }) {
                 </Menu.Items>
   }
   return (
-    <Disclosure as="nav" className="h-auto bg-[#223843]">
+    <Disclosure as="nav" className="bg-[#223843] shadow-lg border border-opacity-50 border-[#223843]">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto ">
-            <div className="relative flex items-center justify-start h-12">
+            <div className="flex h-14 items-center justify-center">
               <div className="flex items-center justify-start mr-6 sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center cursor-pointer">
                   <Link href='/'>
                     <div className='flex h-auto w-auto'>
                       <div className='ml-1 items-center'>
                         <img
-                          className="flex items-start justify-start hidden lg:block h-8 w-auto"
+                          className="flex items-start justify-start hidden lg:block h-8"
                           src="movie-film.svg"
                           alt="Logo"
                         />
