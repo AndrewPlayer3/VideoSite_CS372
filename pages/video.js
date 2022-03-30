@@ -3,6 +3,7 @@ import { title } from "process";
 import ReactPlayer from 'react-player/file';
 import LoginForm from "../components/LoginForm";
 import Rating from '../components/Rating'
+import Navbar from '../components/common/Navbar'
 
 export async function getServerSideProps(context) {
 
@@ -36,26 +37,29 @@ export default function Home({ title, location, description, id, rating }) {
 
     if (session) {
         return (
-            <>
-                <div className='flex items-top justify-top video w-auto h-full mt-8 ml-8'>
-                    <div className='flex player-box shadow-2xl border border-opacity-10 border-[#EFF1F3]'>
-                        <ReactPlayer width='1280px' height='720px' controls url={location} />
+            <div className="flex max-h-screen h-screen items-start justify-center">
+                <div className='flex-col flex-nowrap items-center justify-center video h-full w-5/8'>
+                    <div className='relative items-start'>
+                        <Navbar />
                     </div>
-                    <div className='w-full ml-8 mr-8 bg-[#223843] rounded-sm shadow-2xl border border-opacity-10 border-[#EEF1F3]'>
-                        <div className='flex ml-4 mt-4 h-auto w-full title-and-rating'>
-                            <div className='flex w-full items-start justify-start'>
-                                <h1 className='flex text-2xl text-white'> { title } </h1>
+                    <div className='relative player-box w-auto h-auto mt-4 shadow-2xl border border-opacity-10 border-[#EFF1F3]'>
+                        <ReactPlayer width='100%' height='100%' controls url={location} />
+                    </div>
+                    <div className='relative mt-4 w-auto h-auto bg-[#223843] rounded-lg shadow-2xl border border-opacity-10 border-[#EEF1F3]'>
+                        <div className='flex h-auto w-auto title-and-rating mt-4'>
+                            <div className='flex ml-4 mr-4 w-full items-start justify-start'>
+                                <h1 className='text-lg font-bold text-white'> { title } </h1>
                             </div>
-                            <div className='flex mr-8 w-full items-start justify-end'>
+                            <div className='flex mr-4 mr-4 w-full items-start justify-end'>
                                 <Rating video_id={id} />
                             </div>
                         </div>
-                        <div>
-                            <h1 className='text-[#EFF1F3] text-xl ml-4 mr-4 mt-4'>{description}</h1>
+                        <div className="mb-8">
+                            <h1 className='text-[#EFF1F3] text-md ml-4 mr-4 mt-4'>{description}</h1>
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         );
     }
 

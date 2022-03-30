@@ -67,7 +67,7 @@ export default function NavBar({ user }) {
                 </Menu.Items>
   }
   return (
-    <Disclosure as="nav" className="bg-[#223843] shadow-lg border border-opacity-50 border-[#223843]">
+    <Disclosure as="nav" className="bg-[#223843] border border-opacity-50 border-[#223843]">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto ">
@@ -104,7 +104,7 @@ export default function NavBar({ user }) {
                 </div>
 
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="relative inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
