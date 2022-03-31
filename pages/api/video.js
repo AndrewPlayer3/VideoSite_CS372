@@ -3,6 +3,19 @@ import Video from '../../models/video';
 
 const handler = async (req, res) => {
     if (req.method === 'POST') {   // Set Video Information | TODO: Only CONTENT_EDITORs should be able to make these requests.
+
+        const user_res = await fetch('http://localhost:3000/api/user', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                cookie: req.headers.cookie,
+            },
+        });
+        const user_data = await user_res.json();
+        if (!user_data.role.content_editor) {
+            return res.status(403).send('Only Content Editors can Upload Videos.');  
+        }
+
         const { title, storage_location, thumbnail_location, length, resolution, description, tags } = JSON.parse(req.body);
         try {
             var video = new Video({

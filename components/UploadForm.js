@@ -59,12 +59,14 @@ export default function SignUpForm({ csrfToken }) {
     };
 
     return (
-        <div className="flex h-full items-center justify-center bg-[#223843]">
+        <div className="flex h-full items-center justify-center bg-[#EFF1F3]">
             <Formik
-                initialValues={{ title: '', description: ''}}
+                initialValues={{ title: '', description: '', tags: '', video_length: '' }}
                 validationSchema={Yup.object({
                     title: Yup.string().required('Please enter a title'),
                     description: Yup.string().required('Please enter a description'),
+                    tags: Yup.string().required('Please add some tags.'),
+                    video_length: Yup.number().required('Please enter the length of the video in seconds.'),
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
                     console.log(JSON.stringify(values));
@@ -81,10 +83,9 @@ export default function SignUpForm({ csrfToken }) {
                             title: values.title,
                             description: values.description,
                             storage_location: video_location,
-                            thumbnail_location: thumbnail_location, 
-                            tags: [""],
-                            length: 123,
-                            resolution: "123x123",
+                            thumbnail_location: '/' + thumbnail_location, 
+                            tags: values.tags.split(','), 
+                            length: values.video_length,
                             callbackUrl: `${window.location.origin}`,
                         })
                     });
@@ -131,6 +132,44 @@ export default function SignUpForm({ csrfToken }) {
 
                                     <div className="text-red-600 text-sm">
                                         <ErrorMessage name="description" />
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label
+                                        htmlFor="tags"
+                                        className="uppercase text-sm text-gray-600 font-bold"
+                                    >
+                                        tags [comma seperated list]
+                                        <Field
+                                            name="tags"
+                                            aria-label="enter a comma seperated list of tags for the video"
+                                            aria-required="true"
+                                            type="text"
+                                            className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                                        />
+                                    </label>
+
+                                    <div className="text-red-600 text-sm">
+                                        <ErrorMessage name="tags" />
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label
+                                        htmlFor="video_length"
+                                        className="uppercase text-sm text-gray-600 font-bold"
+                                    >
+                                        length of the video in seconds 
+                                        <Field
+                                            name="video_length"
+                                            aria-label="enter the length of the video in seconds"
+                                            aria-required="true"
+                                            type="text"
+                                            className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                                        />
+                                    </label>
+
+                                    <div className="text-red-600 text-sm">
+                                        <ErrorMessage name="video_length" />
                                     </div>
                                 </div>
                                 <div className="mt-8">

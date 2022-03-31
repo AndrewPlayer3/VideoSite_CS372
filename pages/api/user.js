@@ -35,6 +35,12 @@ const handler = async (req, res) => {
 
         const session = await getSession({ req });
 
+        const roles = {
+            viewer: false,
+            content_editor: false,
+            content_manager: false
+        }
+
         try {    
             const { user } = session;
         
@@ -49,16 +55,16 @@ const handler = async (req, res) => {
                     if (userInfo) {
                         return res.status(200).send({ username: userInfo.username, email: userInfo.email, role: userInfo.role })
                     } else {
-                        return res.status(404).send('User not found');
+                        return res.status(404).send({ message: 'User not found', role: roles });
                     }
                 } catch (error) {
-                    return res.status(500).send(error.message);
+                    return res.status(500).send({message: error.message, role: roles });
                 }
             } else {
-                res.status(500).send('data_incomplete');
+                res.status(500).send({message: 'data_incomplete', role: roles });
             }
         } catch (error) {
-            return res.status(200).send({ username: "", email: "", role: ""});
+            return res.status(200).send({ username: "", email: "", role: roles });
         }
     }
 };
