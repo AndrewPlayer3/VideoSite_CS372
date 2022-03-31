@@ -9,9 +9,6 @@ export default function MyApp({
     const Layout = (Component.layout) || (({ children }) => <>{children}</>);
     return (
         <>
-            <head>
-                <link rel="shortcut icon" href="/favicon.svg" />
-            </head>
             <SessionProvider session={session}>
                 <Header />
                 <Layout>
