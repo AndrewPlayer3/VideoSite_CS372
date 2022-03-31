@@ -100,7 +100,7 @@ export default function SignUpForm({ csrfToken }) {
                                     <div className="text-red-600 text-sm">
                                         <ErrorMessage name="email" />
                                     </div>
-                                </div>
+                               </div>
                                 <div className="mb-4">
                                     <label
                                         htmlFor="password"
