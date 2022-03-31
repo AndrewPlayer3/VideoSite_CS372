@@ -9,13 +9,14 @@ export const config = {
 
 const save_file = async (file) => {
     try {
+        const location = `/public/${file.originalFilename}`;
         const data = await fs.readFile(file.filepath);
-        await fs.writeFile(`./public/${file.originalFilename}`, data, { flag: 'w+' });
+        await fs.writeFile(location, data, { flag: 'w+' });
         await fs.unlink(file.filepath);
-        return true;
+        return location;
     } catch(error) {
         console.log("Error: ", error.message);
-        return false;
+        return "";
     }
 };
 
@@ -30,8 +31,12 @@ export default async (req, res) => {
             })
         })
 
-        const isUploaded = await save_file(data?.files.file)
+        const location = await save_file(data?.files.file)
 
-        return res.status(200).send({"uploaded": isUploaded});
+        if (location !== "") {
+            return res.status(200).send({"uploaded": true, location: location});
+        } else {
+            return res.status(500).send({"uploaded": false, location: ""});
+        }
     }
 }

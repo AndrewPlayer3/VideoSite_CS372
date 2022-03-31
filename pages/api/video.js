@@ -3,7 +3,7 @@ import Video from '../../models/video';
 
 const handler = async (req, res) => {
     if (req.method === 'POST') {   // Set Video Information | TODO: Only CONTENT_EDITORs should be able to make these requests.
-        const { title, storage_location, thumbnail_location, length, resolution, description, tags } = req.body;
+        const { title, storage_location, thumbnail_location, length, resolution, description, tags } = JSON.parse(req.body);
         try {
             var video = new Video({
                 title: title,
