@@ -9,7 +9,7 @@ export default function Header(){
                 {config.title}
             </title>
             <meta name="keywords" content="video streaming site" />
-            <link rel="shortcut icon" href="/favicon.svg" />
+            <link rel="shortcut icon" href="/favicon.png" />
         </Head>
     </div>
     )
