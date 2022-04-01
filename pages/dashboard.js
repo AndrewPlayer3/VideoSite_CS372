@@ -1,48 +1,32 @@
 import { UserIcon, VideoCameraIcon, PresentationChartLineIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
-import { getSession, useSession } from 'next-auth/react'
 import Sidebar from "../components/common/Sidebar/Sidebar";
-import Layout  from "../components/Layout.js"
+import Layout from "../components/Layout.js"
 import Profile from '../components/Profile'
+import roleGuard from './api/helpers/role_check';
 
 export async function getServerSideProps(context) {
 
-    const { data: session, status } = getSession()
+    const user = await roleGuard(context);
 
-    const res = await fetch('http://localhost:3000/api/user', {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            cookie: context.req.headers.cookie,
-        },
-    });
-
-    const data = await res.json();
-
-    if(data.username === ''){
+    if (user.redirect_login) {
         return {
             redirect: {
-              destination: '/login',
-              permanent: false,
+                destination: '/login',
+                permanent: false,
             },
-          }
+        }
     }
-    
-    {/* Role Guard */}
-    if(!(data.role.content_editor || data.role.content_manager)){
+
+    if (user.redirect_profile) {
         return {
             redirect: {
-              destination: '/profile',
-              permanent: false,
+                destination: '/profile',
+                permanent: false,
             },
-          }
+        }
     }
-    
-    const user = {
-        username: data.username,
-        email: data.email,
-        role: data.role
-    }
+
     return {
         props: {
             user: user
@@ -50,8 +34,8 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default function Dashboard({children,user}) {
-    return( 
+export default function Dashboard({ children, user }) {
+    return (
         <div className="flex flex-col items-center justify-center md:flex-row">
             <div className="relative">
                 <Sidebar />

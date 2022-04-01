@@ -4,32 +4,42 @@ import UploadForm from "../../components/UploadForm"
 import Image from 'next/image';
 import { ModalWrap, useState } from "react"
 import { useRouter } from 'next/router'
+import roleGuard from '../api/helpers/role_check'
+import videoQuery from '../api/helpers/video_query'
 
 export async function getServerSideProps(context) {
 
-    let url = "http://localhost:3000/api/video";
-    
-    if (context.query.title) {
-        url += "?text_query=" + context.query.title;
+    const user = await roleGuard(context); 
+
+    if (user.redirect_login) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        }
     }
 
-    const res = await fetch(url, {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    if (user.redirect_profile) {
+        return {
+            redirect: {
+                destination: '/profile',
+                permanent: false,
+            },
+        }
+    }
 
-    const data = await res.json();
+    const data = await videoQuery(context);
 
     return {
         props: {
+            user: user,
             videos: data
         },
     }
 }
 
-export default function Content({videos}) {
+export default function Content({ videos, user }) {
 
     const router = useRouter();
     const [removed, setRemoved] = useState('');
@@ -61,11 +71,19 @@ export default function Content({videos}) {
              body: JSON.stringify(body)
         });
 
-        if (res.status == 500) console.log("not removed");
+        if (res.status == 500) {
+            alert('There was an error removing the video.');
+            return;
+        } else if (res.status == 403) {
+            alert('Unauthorized: You must be a Content Editor to delete videos.');
+            return;
+        }
 
         const data = await res.json();
 
-        if (res.status == 200) console.log(data.removed)
+        if (res.status == 200) {
+            alert('The video has been deleted.');
+        }
 
         router.push('/dashboard/content');
     };
@@ -77,9 +95,13 @@ export default function Content({videos}) {
             </div>
             <div className="absolute top-14 w-3/5 w-3/5 left-1/5 right-1/5 flex flex-col justify-center md:flex-row tablet:left-0 tablet:right-0 tablet:w-screen tablet:top-14">
                 <div className=" relative flex flex-col items-center justify-center h-auto">
-                    <div className="">
-                        <UploadForm />
-                    </div>
+                    { user.role.content_editor ?
+                        <div>
+                            <UploadForm />
+                        </div>
+                        :
+                        <> </>
+                    }
                     {videos.length !== 0 ? 
                             <div className="w-full bg-slate-200 my-16 overflow-x-auto shadow-md sm:rounded-lg">
                                 <table className="w-full divide-y divide-slate-700 text-sm text-left text-gray-500 dark:text-gray-400">
@@ -91,18 +113,28 @@ export default function Content({videos}) {
                                     <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                         Video
                                     </th>
-                                    <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                        Views
-                                    </th>
-                                    <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                        Rating
-                                    </th>
+                                    { user.role.content_manager ?
+                                        <>
+                                            <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                                Views
+                                            </th>
+                                            <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left max-length-3">
+                                                Rating
+                                            </th>
+                                        </>
+                                        :
+                                        <></>
+                                    }
                                     <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                         Date
                                     </th>
-                                    <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                        Delete forever
-                                    </th>
+                                    { user.role.content_editor ?
+                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Delete forever
+                                        </th>
+                                        :
+                                        <></>
+                                    }
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-700">
@@ -126,26 +158,36 @@ export default function Content({videos}) {
                                                         </div>
                                                     </div>
                                                     <div className="w-2/3 ml-1 pl-2">
-                                                        <h3 className="font-medium text-black">{video.title}</h3>
+                                                        <h3 className="font-medium text-black overflow-hidden hover:overflow-visible text-ellipsis">{video.title}</h3>
                                                         <p className="text-ellipsis overflow-hidden">{video.description}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap">
-                                                {video.analytics.views}
-                                            </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap">
-                                            {video.analytics.total_rating/video.analytics.num_ratings}
-                                            </td>
+                                            { user.role.content_manager ?
+                                                <>
+                                                    <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap">
+                                                        {video.analytics.views}
+                                                    </td>
+                                                    <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap">
+                                                    {video.analytics.total_rating/video.analytics.num_ratings}
+                                                    </td>
+                                                </>
+                                                :
+                                                <></>
+                                            }
                                             <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap ">
                                             {video.created_at.substring(0, 10)}
                                             </td>
-                                            <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap">
-                                                <a onClick={async () => removeVideo(video._id)} className="flex items-center text-red-600  hover:underline hover:cursor-pointer">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}> <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /> </svg>
-                                                    <span>Delete</span>
-                                                </a>
-                                            </td>
+                                            { user.role.content_editor ?
+                                                <td className="text-sm text-gray-900 font-light px-6 whitespace-nowrap">
+                                                    <a onClick={async () => removeVideo(video._id)} className="flex items-center text-red-600  hover:underline hover:cursor-pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}> <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /> </svg>
+                                                        <span>Delete</span>
+                                                    </a>
+                                                </td>
+                                                :
+                                                <></>
+                                            }
                                         </tr>
                                     ))}
                                     

@@ -1,9 +1,9 @@
-import { useSession, getSession } from "next-auth/react"
-import { title } from "process";
+import { useSession } from "next-auth/react"
 import ReactPlayer from 'react-player/file';
 import LoginForm from "../components/LoginForm";
 import Rating from '../components/Rating'
 import Navbar from '../components/common/Navbar'
+import { useRouter } from 'next/router'
 
 export async function getServerSideProps(context) {
 
@@ -16,9 +16,18 @@ export async function getServerSideProps(context) {
 
     const data = await res.json()
 
+    const view = await fetch('http://localhost:3000/api/video', {
+        method: 'PUT',
+        body: JSON.stringify({
+            id: context.query.id
+        })
+    });
+
+    if (view.status == 200) console.log('view error.');
+
+    await view.json();
 
     const rating = Math.round(data.analytics.total_rating / data.analytics.num_ratings)
-    console.log(rating)
 
     return {
         props: {
@@ -64,7 +73,7 @@ export default function Home({ title, location, description, id, rating }) {
     }
 
     return (
-        <div className="h-auto w-auto mt-10 flex item-center justify-center">
+        <div className="h-screen w-screen flex item-center justify-center">
             <LoginForm />
         </div>
     )

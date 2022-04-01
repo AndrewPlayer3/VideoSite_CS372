@@ -73,7 +73,7 @@ export default function SignUpForm({ csrfToken }) {
                     const video_location = await uploadVideoToServer();
                     const thumbnail_location = await uploadThumbnailToServer();
                     if (!(video_location || thumbnail_location)) {
-                        console.log("ERROR UPLOADING");
+                        alert("There was an error uploading the video.");
                         return;
                     }
                     const res = await fetch('http://localhost:3000/api/video', {
@@ -89,6 +89,7 @@ export default function SignUpForm({ csrfToken }) {
                             callbackUrl: `${window.location.origin}`,
                         })
                     });
+                    alert(values.title + ' has been uploaded.');
                     setSubmitting(false);
                 }}
             >

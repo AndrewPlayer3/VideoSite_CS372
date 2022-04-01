@@ -93,6 +93,15 @@ const handler = async (req, res) => {
                 res.status(500).send({removed: false, message: error.message});
             }
         }
+    } else if (req.method == 'PUT') {
+        const { id } = JSON.parse(req.body);
+        console.log(id);
+        try {
+            const view_video = await Video.findByIdAndUpdate(id, { $inc: { 'analytics.views': 1 } });
+            res.status(200).send({viewed: true})
+        } catch (error) {
+            res.status(500).send({message: 'Error putting view'});
+        }
     } else {
         res.status(422).send('Invalid Request.');
     }
