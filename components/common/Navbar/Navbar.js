@@ -79,7 +79,7 @@ export default function NavBar({ user }) {
                       <div className='flex ml-1 items-center'>
                         <img
                           className="flex items-end justify-start hidden bg-slate-200 rounded-md lg:block h-6"
-                          src="movie-film.png"
+                          src="/movie-film.png"
                           alt="Logo"
                         />
                       </div>

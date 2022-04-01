@@ -1,5 +1,6 @@
 import NavBar from "./common/Navbar/Navbar"
 import Footer from "../components/common/Footer"
+import Header from "../components/common/Header"
 
 export default function Layout({children, pageProps}){
     return(

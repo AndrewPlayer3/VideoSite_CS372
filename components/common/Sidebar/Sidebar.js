@@ -19,7 +19,7 @@ const LinkAction = withRouter(NavLink);
 
 function Sidebar() {
     return <nav
-        className="flex flex-col bg-gray-500 text-white h-screen w-64 flex-shrink-0 py-4 px-1"
+        className="flex flex-col bg-gray-500 text-white h-auto w-64 flex-shrink-0 py-4 px-1"
     >
 
         <LinkAction href="/dashboard"
