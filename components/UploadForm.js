@@ -84,7 +84,7 @@ export default function SignUpForm({ csrfToken }) {
                             description: values.description,
                             storage_location: video_location,
                             thumbnail_location: '/' + thumbnail_location, 
-                            tags: values.tags.split(','), 
+                            tags: values.tags.split(",").map(function(item){return item.trim()}), 
                             length: values.video_length,
                             callbackUrl: `${window.location.origin}`,
                         })
