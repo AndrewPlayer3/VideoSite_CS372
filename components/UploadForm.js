@@ -59,7 +59,7 @@ export default function SignUpForm({ csrfToken }) {
     };
 
     return (
-        <div className="flex h-full items-center justify-center bg-[#EFF1F3]">
+        <div className="flex h-full items-center justify-center">
             <Formik
                 initialValues={{ title: '', description: '', tags: '', video_length: '' }}
                 validationSchema={Yup.object({
@@ -94,7 +94,7 @@ export default function SignUpForm({ csrfToken }) {
             >
                 {(formik) => (
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="flex flex-col items-center justify-center py-2 rounded-lg bg-[#EFF1F3] shadow-xl">
+                        <div className="flex flex-col items-center justify-center py-2 bg-slate-200 rounded-b-lg ">
                             <div className="px-8 pt-6 pb-8">
                                 <div className="mb-4">
                                     <label
@@ -173,17 +173,21 @@ export default function SignUpForm({ csrfToken }) {
                                     </div>
                                 </div>
                                 <div className="mt-8">
-                                    <h4>Select the Video File</h4>
-                                    <Field type="file" name="video_location" onChange={uploadVideoToClient} />
+                                    <label className="cursor-pointer hover:shadow-lg hover:border-b hover:border-b-solid hover:border-b-slate-800" for='video_location'>
+                                        <Field type="file" className='hidden' id="video_location" name="video_location" onChange={uploadVideoToClient} />
+                                        Select the Video File {video ? `${video}` : ''}
+                                    </label>
                                 </div>
                                 <div className="mt-4">
-                                    <h4>Select the Thumbnail File</h4>
-                                    <Field type="file" name="thumbnail_location" onChange={uploadThumbnailToClient} />
+                                    <label className="cursor-pointer hover:shadow-lg hover:border-b hover:border-b-solid hover:border-b-slate-800" for='thumbnail_location'>
+                                        <Field type="file" className='hidden' id='thumbnail_location' name="thumbnail_location" onChange={uploadThumbnailToClient} />
+                                        Select the Thumbnail File {thumbnail ? thumbnail : ''}
+                                    </label>
                                 </div>
                                 <div className="flex items-center justify-center mt-8">
                                     <button
                                         type="submit"
-                                        className="uppercase text-sm font-bold tracking-wide bg-[#D77A61] text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
+                                        className="uppercase text-sm font-bold tracking-wide bg-slate-800 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
                                     >
                                         {formik.isSubmitting ? 'Please wait...' : 'Upload'}
                                     </button>

@@ -24,11 +24,11 @@ export default function Rating({ video_id }) {
                 <button
                     type="button"
                     key={index}
-                    className={index <= (hover || rating) ? "text-[#1F2937] text-2xl" : "text-[#ccc] text-2xl"}
+                    className={index <= (hover || rating) ? "text-slate-200 text-2xl" : "text-slate-200 text-2xl"}
                     onClick={() => {setRating(index); postRating(index, video_id);}}
                     onMouseEnter={() => setHover(index)}
                     onMouseLeave={() => setHover(rating)} >
-                    <span className="star">&#9733;</span>
+                    { index <= (hover || rating) ? <span className="star">&#9733;</span> : <span className="star">&#9734;</span> }
                 </button>
             );
         })}

@@ -9,7 +9,7 @@ export default function LoginForm({ csrfToken }) {
   const [error, setError] = useState(null);
 
   return (
-    <div className="flex h-full items-center justify-center bg-[#223843]">
+    <div className="flex h-full items-center justify-center">
       <Formik
         initialValues={{ username: '', password: '', }}
         validationSchema={Yup.object({
@@ -34,7 +34,7 @@ export default function LoginForm({ csrfToken }) {
       >
         {(formik) => (
           <form onSubmit={formik.handleSubmit}>
-            <div className="flex flex-col items-center justify-center py-2 rounded-lg bg-[#EFF1F3] shadow-xl">
+            <div className="flex flex-col items-center justify-center py-2 rounded-lg bg-slate-200 shadow-xl">
               <div className="px-8 pt-6 pb-8 mb-4">
                 <input
                   name="csrfToken"
@@ -86,7 +86,7 @@ export default function LoginForm({ csrfToken }) {
                 <div className="flex items-center justify-center">
                 <button
                     type="submit"
-                    className="uppercase text-sm font-bold tracking-wide bg-[#D77A61] text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
+                    className="uppercase text-sm font-bold tracking-wide bg-slate-600 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl hover:border hover:border-opacity-0 active:scale-90 transition duration-150"
                   >
                     {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
                   </button>
@@ -94,7 +94,7 @@ export default function LoginForm({ csrfToken }) {
                     onClick = {() => router.push('/signup')}
                     name="signup"
                     type="button"
-                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-[#223843] text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
+                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-slate-800 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl hover:shadow-xl hover:border hover:border-opacity-0 active:scale-90 transition duration-150"
                   >
                     sign up
                   </button>

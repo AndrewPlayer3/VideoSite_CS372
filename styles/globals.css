@@ -4,6 +4,6 @@
 
 @layer base{
     body {
-        @apply bg-[#223843]
+        @apply bg-gradient-to-l from-slate-900 via-slate-800 to-slate-900 backdrop-blur-lg
     }
 }

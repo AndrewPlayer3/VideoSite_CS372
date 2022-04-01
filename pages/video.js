@@ -37,25 +37,25 @@ export default function Home({ title, location, description, id, rating }) {
 
     if (session) {
         return (
-            <div className="flex max-h-screen h-screen items-start justify-center">
-                <div className='flex-col flex-nowrap items-center justify-center video h-full w-5/8'>
-                    <div className='relative items-start'>
-                        <Navbar />
-                    </div>
-                    <div className='relative player-box w-auto h-auto mt-4 shadow-2xl border border-opacity-10 border-[#EFF1F3]'>
+            <div className="max-h-screen h-screen max-w-screen w-screen">
+                <div className='flex-col'>
+                    <Navbar />
+                </div>
+                <div className="flex items-center justify-center">
+                    <div className='player-box w-max h-max mt-4'>
                         <ReactPlayer width='100%' height='100%' controls url={location} />
-                    </div>
-                    <div className='relative mt-4 w-auto h-auto bg-[#223843] rounded-lg shadow-2xl border border-opacity-10 border-[#EEF1F3]'>
-                        <div className='flex h-auto w-auto title-and-rating mt-4'>
-                            <div className='flex ml-4 mr-4 w-full items-start justify-start'>
-                                <h1 className='text-lg font-bold text-white'> { title } </h1>
+                        <div className='relative mt-4 w-full h-auto rounded-lg shadow-2xl border border-opacity-10 border-[#EEF1F3]'>
+                            <div className='flex h-auto w-auto title-and-rating mt-4'>
+                                <div className='flex ml-4 mr-4 w-full items-start justify-start'>
+                                    <h1 className='text-lg font-bold text-white'> { title } </h1>
+                                </div>
+                                <div className='flex mr-4 mr-4 w-full items-start justify-end'>
+                                    <Rating video_id={id} />
+                                </div>
                             </div>
-                            <div className='flex mr-4 mr-4 w-full items-start justify-end'>
-                                <Rating video_id={id} />
+                            <div className="mb-8">
+                                <h1 className='text-[#EFF1F3] text-md ml-4 mr-4 mt-4'>{description}</h1>
                             </div>
-                        </div>
-                        <div className="mb-8">
-                            <h1 className='text-[#EFF1F3] text-md ml-4 mr-4 mt-4'>{description}</h1>
                         </div>
                     </div>
                 </div>

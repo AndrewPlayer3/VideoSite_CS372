@@ -31,10 +31,10 @@ export default function Content({videos}) {
     console.log("Videos: ", videos);
     return (
         <>
-            <div className="flex flex-col overflow-clip md:flex-row">
+            <div className="flex flex-col h-screen overflow-clip md:flex-row">
                 <Sidebar />
                 <div className="flex flex-col items-center pb-24 h-screen w-screen">
-                    <div>
+                    <div className="">
                         <UploadForm />
                     </div>
                     {videos != undefined ? 

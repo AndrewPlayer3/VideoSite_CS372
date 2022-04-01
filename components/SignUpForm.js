@@ -9,7 +9,7 @@ export default function SignUpForm({ csrfToken }) {
     const [error, setError] = useState(null);
 
     return (
-        <div className="flex h-full items-center justify-center bg-[#223843]">
+        <div className="flex h-full items-center justify-center">
             <Formik
                 initialValues={{ username: '', password: '', confirmpassword: '', email: '', content_editor: false, content_manager: false}}
                 validationSchema={Yup.object({
@@ -166,7 +166,7 @@ export default function SignUpForm({ csrfToken }) {
                                 <div className="flex items-center justify-center">
                                     <button
                                         type="submit"
-                                        className="uppercase text-sm font-bold tracking-wide bg-[#D77A61] text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
+                                        className="uppercase text-sm font-bold tracking-wide bg-slate-800 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl active:scale-90 transition duration-150"
                                     >
                                         {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
                                     </button>

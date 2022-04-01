@@ -40,7 +40,7 @@ export default function Home({ videos }) {
 
     return (
         <>
-            <Results result={ videos } classes={'h-auto px-5 mt-4 bg-[#EFF1F3] text-white sm:grid md:grid-cols-2 lg:grid-cols-4'}/>{/* Result is the json file of video data/ */}
+            <Results result={ videos } classes={'h-auto px-5 mt-4 text-white sm:grid md:grid-cols-2 lg:grid-cols-4'}/>{/* Result is the json file of video data/ */}
         </>
     )
 }
