@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/react'
 import Sidebar from "../components/common/Sidebar/Sidebar";
 import Layout  from "../components/Layout.js"
-import Profile from './profile'
+import Profile from '../components/Profile'
 
 export async function getServerSideProps(context) {
 
@@ -56,7 +56,7 @@ export default function Dashboard({children,user}) {
             <div className="relative">
                 <Sidebar />
             </div>
-            <div id="myTabContent" className="absolute w-2/4 h-2/4 left-1/4 top-1/5 flex-1">
+            <div id="myTabContent" className="absolute w-2/4 h-2/4 left-1/4 top-1/5">
                 <Profile user={user} />
             </div>
         </div>
