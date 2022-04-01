@@ -69,6 +69,30 @@ const handler = async (req, res) => {
                return res.status(500).send('No Videos Found.'); 
             }
         }
+    } else if (req.method == 'DELETE') {
+        const user_res = await fetch('http://localhost:3000/api/user', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                cookie: req.headers.cookie,
+            },
+        });
+        const user_data = await user_res.json();
+        if (!user_data.role.content_editor) {
+            return res.status(403).send('Only Content Editors can Remove Videos.');  
+        }
+    
+        const { id } = JSON.parse(req.body);
+
+        if (id) {
+            try {
+                const video_removed = await Video.deleteOne({_id: id});
+                res.status(200).send({removed: true, message: 'video removed successfully', output: video_removed});
+            } catch (error) {
+                console.log(error.message);
+                res.status(500).send({removed: false, message: error.message});
+            }
+        }
     } else {
         res.status(422).send('Invalid Request.');
     }
