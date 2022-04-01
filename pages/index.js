@@ -32,15 +32,13 @@ export default function Home({ videos }) {
 
     if (videos.length === 0) {
         return (
-            <div className='flex w-full h-full mt-8 items-center justify-center'>
-                <h1 className="text-2xl">Sorry, we couldn't find any videos matching that search.</h1>
-            </div>
+            <h1 className="absolute w-2/4 h-2/4 left-1/4 text-2xl text-slate-200 text-center pt-10">Sorry, we couldn't find any videos matching that search.</h1>
         )
     }
 
     return (
         <>
-            <Results result={ videos } classes={'h-auto px-5 mt-4 text-white sm:grid md:grid-cols-2 lg:grid-cols-4'}/>{/* Result is the json file of video data/ */}
+            <Results result={ videos } classes={'h-auto px-5 mt-4 text-white sm:grid md:grid-cols-2 lg:grid-cols-6'}/>{/* Result is the json file of video data/ */}
         </>
     )
 }

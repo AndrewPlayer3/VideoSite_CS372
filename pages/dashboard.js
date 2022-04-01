@@ -52,9 +52,11 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard({children,user}) {
     return( 
-        <div className="flex flex-col md:flex-row">
-            <Sidebar />
-            <div id="myTabContent" className="flex-1 pb-24 h-screen w-screen">
+        <div className="flex flex-col items-center justify-center md:flex-row max-h-screen max-w-screen">
+            <div className="static">
+                <Sidebar />
+            </div>
+            <div id="myTabContent" className="relative flex-1">
                 <Profile user={user} />
             </div>
         </div>
