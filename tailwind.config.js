@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -13,9 +15,10 @@ module.exports = {
         '1/10': '10%'
       },
       screens: {
-        'xs': { 
-          'max': '480px'
-        }
+        'tablet': { 
+          'max': '1000px'
+        },
+        ...defaultTheme.screens,
       }
     },
   },

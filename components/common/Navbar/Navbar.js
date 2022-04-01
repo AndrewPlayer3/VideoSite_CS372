@@ -34,7 +34,7 @@ export default function NavBar({ liveSearch }) {
                                             alt="Logo"
                                         />
                                     </div>
-                                    <div className='flex items-end justify-center text-2xl text-[#EFF1F3] ml-1 mr-1 xs:hidden'>
+                                    <div className='flex items-end justify-center text-2xl text-[#EFF1F3] ml-1 mr-1 tablet:hidden'>
                                         <h1 className="font-sans font-bold">Fletnix</h1>
                                     </div>
                                 </div>

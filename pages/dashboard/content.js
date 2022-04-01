@@ -51,8 +51,10 @@ export default function Content({videos}) {
 
     return (
         <>
-            <Sidebar />
-            <div className="absolute top-14 left-1/4 flex flex-col w-max md:flex-row">
+            <div className="tablet:hidden">
+                <Sidebar />
+            </div>
+            <div className="lg:absolute lg:top-14 lg:left-1/4 flex flex-col lg:w-max md:flex-row">
                 <div className="flex flex-col items-center justify-center h-auto">
                     <div className="">
                         <UploadForm />

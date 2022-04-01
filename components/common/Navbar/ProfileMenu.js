@@ -36,7 +36,7 @@ export default function ProfileMenu({ user }) {
     let MenuItem;
     
     if (isLoggedIn) {
-        MenuItem = <Menu.Items className="origin-top-right absolute right-0 mt-4 w-48 rounded-md shadow-lg py-1 backdrop-blur-2xl bg-slate-900 bg-opacity-90 border border-opacity-25 border-slate-200 ring-1 ring-black ring-opacity-5 z-50 focus:outline-none">
+        MenuItem = <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 backdrop-blur-2xl bg-slate-900 bg-opacity-70 border border-opacity-25 border-slate-200 ring-1 ring-black ring-opacity-5 z-50 focus:outline-none">
             <Menu.Item>
                 {({ active }) => (
                     <a
