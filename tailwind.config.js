@@ -11,6 +11,11 @@ module.exports = {
       inset: {
         '1/5': '20%',
         '1/10': '10%'
+      },
+      screens: {
+        'xs': { 
+          'max': '480px'
+        }
       }
     },
   },

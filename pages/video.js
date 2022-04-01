@@ -41,7 +41,7 @@ export default function Home({ title, location, description, id, rating }) {
                 <div className='top-0 w-screen'>
                     <Navbar liveSearch = { false } />
                 </div>
-                <div className="absolute flex-col w-3/5 h-3/5 left-1/5 pt-14">
+                <div className="absolute flex-col min-w-min sm:w-3/5 sm:h-3/5 sm:left-1/5 pt-14 xs:w-6/6 xs:h-6/6">
                     <div className='relative player-box'>
                         <ReactPlayer width='100%' height='100%' controls url={location} />
                         <div className='mt-4 rounded-lg shadow-2xl border border-opacity-10 border-[#EEF1F3]'>
