@@ -54,7 +54,7 @@ export default function Dashboard({children,user}) {
     return( 
         <div className="flex flex-col md:flex-row">
             <Sidebar />
-            <div id="myTabContent" className="flex-1 pb-24 h-screen w-screen">
+            <div id="myTabContent" className="flex-1 h-screen w-screen">
                 <Profile user={user} />
             </div>
         </div>

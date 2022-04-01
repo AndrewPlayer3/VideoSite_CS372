@@ -37,7 +37,7 @@ export default function Content({videos}) {
                     <div className="">
                         <UploadForm />
                     </div>
-                    {videos != undefined ? 
+                    {videos.length !== 0 ? 
                     <div className="block h-2/4 w-full">
                         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -87,7 +87,7 @@ export default function Content({videos}) {
                             </div>
                         </div>
                     </div>
-                    : <h1 className="text-2xl">No videos to display.</h1>}
+                    : <h1 className="mt-12 text-2xl">No videos to display.</h1>}
                 </div>
             </div>
         </>

@@ -32,7 +32,7 @@ export default function Home({ videos }) {
 
     if (videos.length === 0) {
         return (
-            <div className='flex w-full h-full mt-8 items-center justify-center'>
+            <div className='flex w-full h-screen mt-8 items-center justify-center'>
                 <h1 className="text-2xl">Sorry, we couldn't find any videos matching that search.</h1>
             </div>
         )
