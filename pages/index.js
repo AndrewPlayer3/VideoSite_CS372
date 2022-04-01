@@ -5,8 +5,8 @@ export async function getServerSideProps(context) {
 
     let url = "http://localhost:3000/api/video";
     
-    if (context.query.title) {
-        url += "?text_query=" + context.query.title;
+    if (context.query.text_query) {
+        url += "?text_query=" + context.query.text_query;
     }
 
     const res = await fetch(url, {

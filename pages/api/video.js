@@ -47,14 +47,7 @@ const handler = async (req, res) => {
             id = req.query.id;
         }
         if (text_query) {
-            const query_results = await Video.find({ "title": { $regex: text_query, $options: 'i' } });
-            if (query_results) {
-                return res.status(200).send(query_results);
-            } else {
-                return res.status(404).send('No Videos Found.');
-            }
-        } else if (tag) {
-            const query_results = await Video.find({ "tags": { "$in": [tag] } });
+            const query_results = await Video.find({$or: [{ "title": { $regex: text_query, $options: 'i' } }, { "tags": text_query }] });
             if (query_results) {
                 return res.status(200).send(query_results);
             } else {
