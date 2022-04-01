@@ -10,7 +10,7 @@ export default function Thumbnail({result}){
 
     return(
         <div className=''>
-            <div className='block m-3 cursor-pointer'>
+            <div className='block m-2 cursor-pointer'>
                 {/* Each Video Thumbnail display/ Display default thumbnail if there is none in db */}
                 <div>
                     <Link href={{pathname: '/video', query: {"id": result['_id']}}}>
@@ -18,8 +18,8 @@ export default function Thumbnail({result}){
                             <Image 
                                 layouts='fill'
                                 src={result['thumbnail']}
-                                height='1080'
-                                width='1920'
+                                height='720px'
+                                width='1280px'
                                 className="rounded-md"
                             />
                             <div className='absolute bottom-0 right-0 opacity-70'>

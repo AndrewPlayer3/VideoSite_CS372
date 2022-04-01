@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="flex h-14 items-center text-white bg-slate-900">
+        <footer className="flex h-14 items-center text-white bg-opacity-90 bg-slate-900">
             <div className="flex justify-between w-screen">
                 <div className='flex w-full items-center justify-start ml-8'>
                     <h1 className='opacity-10'>

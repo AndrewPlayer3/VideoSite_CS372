@@ -41,7 +41,6 @@ export default function LoginForm({ csrfToken }) {
                   type="hidden"
                   defaultValue={csrfToken}
                 />
-
                 <div className="text-red-400 text-md text-center rounded p-2">
                   {error}
                 </div>
@@ -86,7 +85,7 @@ export default function LoginForm({ csrfToken }) {
                 <div className="flex items-center justify-center">
                 <button
                     type="submit"
-                    className="uppercase text-sm font-bold tracking-wide bg-slate-600 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl hover:border hover:border-opacity-0 active:scale-90 transition duration-150"
+                    className="uppercase text-sm font-bold tracking-wide bg-slate-600 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl hover:border hover:border-opacity-0 transition duration-150"
                   >
                     {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
                   </button>
@@ -94,7 +93,7 @@ export default function LoginForm({ csrfToken }) {
                     onClick = {() => router.push('/signup')}
                     name="signup"
                     type="button"
-                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-slate-800 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl hover:shadow-xl hover:border hover:border-opacity-0 active:scale-90 transition duration-150"
+                    className="uppercase text-sm font-bold mx-2 tracking-wide bg-slate-800 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline hover:shadow-xl hover:shadow-xl hover:border hover:border-opacity-0 transition duration-150"
                   >
                     sign up
                   </button>
