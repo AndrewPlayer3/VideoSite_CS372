@@ -30,7 +30,7 @@ export default function NavBar({ liveSearch }) {
                                     <div className='flex ml-1 items-center'>
                                         <img
                                             className="flex items-end justify-start bg-slate-200 rounded-md lg:block h-6 mx-1"
-                                            src="movie-film.png"
+                                            src="http://localhost:3000/movie-film.png"
                                             alt="Logo"
                                         />
                                     </div>
