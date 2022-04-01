@@ -51,15 +51,15 @@ export default function Content({videos}) {
 
     return (
         <>
-            <div className="flex flex-col h-full md:flex-row">
-                <Sidebar />
-                <div className="flex flex-col items-center h-auto w-screen">
-                    <div className="m-5">
+            <Sidebar />
+            <div className="absolute top-14 left-1/4 flex flex-col w-max md:flex-row">
+                <div className="flex flex-col items-center justify-center h-auto">
+                    <div className="">
                         <UploadForm />
                     </div>
                     {videos.length !== 0 ? 
-                            <div className="relative w-5/6 bg-slate-200 my-16 overflow-x-auto shadow-md sm:rounded-lg">
-                                <table className="w-full  divide-y divide-slate-700 text-sm text-left text-gray-500 dark:text-gray-400">
+                            <div className="w-full bg-slate-200 my-16 overflow-x-auto shadow-md sm:rounded-lg">
+                                <table className="w-full divide-y divide-slate-700 text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead>
                                     <tr>
                                     <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
