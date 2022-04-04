@@ -176,13 +176,13 @@ export default function SignUpForm({ csrfToken }) {
                                 <div className="mt-8">
                                     <label className="cursor-pointer hover:shadow-lg hover:border-b hover:border-b-solid hover:border-b-slate-800" htmlFor='video_location'>
                                         <Field type="file" className='hidden' id="video_location" name="video_location" onChange={uploadVideoToClient} />
-                                        Select the Video File {video ? `${video}` : ''}
+                                        Select the Video File {video ? '✅ ' : ''}
                                     </label>
                                 </div>
                                 <div className="mt-4">
                                     <label className="cursor-pointer hover:shadow-lg hover:border-b hover:border-b-solid hover:border-b-slate-800" htmlFor='thumbnail_location'>
                                         <Field type="file" className='hidden' id='thumbnail_location' name="thumbnail_location" onChange={uploadThumbnailToClient} />
-                                        Select the Thumbnail File {thumbnail ? `${thumbnail}` : ''}
+                                        Select the Thumbnail File {thumbnail ? '✅' : ''}
                                     </label>
                                 </div>
                                 <div className="flex items-center justify-center mt-8">
