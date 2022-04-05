@@ -13,7 +13,6 @@ export async function getServerSideProps(context) {
             method: 'GET'
         }
     )
-
     const data = await res.json()
 
     const view = await fetch('http://localhost:3000/api/video', {
@@ -22,9 +21,6 @@ export async function getServerSideProps(context) {
             id: context.query.id
         })
     });
-
-    if (view.status == 200) console.log('view error.');
-
     await view.json();
 
     const rating = Math.round(data.analytics.total_rating / data.analytics.num_ratings)
