@@ -5,43 +5,21 @@ import Image from 'next/image';
 import { useState } from "react"
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import roleGuard from '../api/helpers/role_check'
 import videoQuery from '../api/helpers/video_query'
 import loginStatus from '../../helpers/login-status'
 
 export async function getServerSideProps(context) {
 
-    const user = await roleGuard(context); 
-
-    if (user.redirect_login) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        }
-    }
-
-    if (user.redirect_profile) {
-        return {
-            redirect: {
-                destination: '/profile',
-                permanent: false,
-            },
-        }
-    }
-
     const data = await videoQuery(context);
 
     return {
         props: {
-            user: user,
             videos: data
         },
     }
 }
 
-export default function Content({ videos, user }) {
+export default function Content({ videos }) {
 
     const { data: session, status } = useSession();
     const router = useRouter();
