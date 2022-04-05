@@ -14,7 +14,6 @@ export default function profile({ user }) {
         if (role.content_editor) roles += "Content_Editor ";
         if (role.content_manager) roles += "Content_Manager ";
 
-        
         return (
             <div className='flex mt-8 h-auto w-auto items-center justify-center'>
                 <div className="bg-white shadow overflow-hidden sm:rounded-lg">
