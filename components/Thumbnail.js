@@ -32,9 +32,6 @@ export default function Thumbnail({result}){
                     <div className='flex w-full h-auto items-center justify-start'>
                         <p className='font-sans font-bold text-[#EFF1F3]'>{result['title']}</p>
                     </div>
-                    {/* <div className='flex w-auto h-auto items-center justify-end'>
-                        <p className='w-full font-sans font-bold text-[#C8C8C8]'>{length}</p>
-                    </div> */}
                 </div>
             </div> 
         </div>
