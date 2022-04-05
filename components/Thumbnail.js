@@ -1,13 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import def from '../public/placeholder.jpeg'
 import DisplayRating from './DisplayRating'
 
 
 export default function Thumbnail({result}){
-
-    const length = new Date(result['metadata'].length * 1000).toISOString().substr(11, 8);
-
     return(
         <div className=''>
             <div className='block m-2 cursor-pointer'>
