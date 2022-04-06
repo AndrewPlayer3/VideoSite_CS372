@@ -70,6 +70,9 @@ const save_file = async (file, type, id) => {
 };
 
 export default async (req, res) => {
+
+    const { vid } = req.query;
+
     if (req.method == "POST") {
 
         const user_res = await fetch('http://localhost:3000/api/user', {
@@ -80,7 +83,6 @@ export default async (req, res) => {
             },
         });
         const user_data = await user_res.json();
-        console.log('USER DATA: ', user_data);
         if (!user_data.role.content_editor) {
             return res.status(403).send('Only Content Editors can Upload Videos.');  
         }
@@ -94,10 +96,12 @@ export default async (req, res) => {
             })
         })
 
-        const uploaded = await uploadFileToGoogleCloud({filePath: data?.files.file.filepath, destFileName: data?.fields.type + '/' + data?.fields.id + "." + data?.files.file.mimetype.split('/')[1]});
+        const destFileName = data?.fields.type + '/' + vid + "." + data?.files.file.mimetype.split('/')[1];
+
+        const uploaded = await uploadFileToGoogleCloud({filePath: data?.files.file.filepath, destFileName: destFileName});
 
         if (uploaded) {
-            return res.status(200).send({"uploaded": true, location: data?.fields.type + '/' + data?.fields.id + "." + data?.files.file.mimetype.split('/')[1]});
+            return res.status(200).send({"uploaded": true, location: destFileName});
         } else {
             return res.status(500).send({"uploaded": false, location: "" });
         }

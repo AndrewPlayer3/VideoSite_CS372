@@ -1,5 +1,5 @@
-import connectDB from '../../middleware/mongodb';
-import Video from '../../models/video';
+import connectDB from '../../../middleware/mongodb';
+import Video from '../../../models/video';
 
 const handler = async (req, res) => {
     if (req.method === 'POST') {   // Set Video Information | TODO: Only CONTENT_EDITORs should be able to make these requests.

@@ -3,16 +3,18 @@ import React, { useState, useEffect } from "react";
 const postRating = (video_rating, video_id) => {
     console.log('Client Rating: ', video_rating);
     console.log('Client ID: ', video_id);
-    fetch('http://localhost:3000/api/rate', {
+    fetch('http://localhost:3000/api/videos/' + video_id + '/rate', {
         method: 'POST',
         body: JSON.stringify({
             rating: video_rating,
-            id: video_id
         })
     }).then((res) => res.json()).then(console.log("Rating finished."));
 }
 
 export default function Rating({ video_id }) {
+
+    console.log("ID: ", video_id)
+
     let [rating, setRating] = useState(0);
     let [hover, setHover] = useState(0);
 

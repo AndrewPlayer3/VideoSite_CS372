@@ -23,7 +23,6 @@ export default function Content({ videos }) {
 
     const { data: session, status } = useSession();
     const router = useRouter();
-    const [removed, setRemoved] = useState('');
 
     function fancyTimeFormat(duration)
     {   
@@ -45,11 +44,10 @@ export default function Content({ videos }) {
     }
 
     const removeVideo = async (id) => {
-        console.log(id);
-        const body = {id: id};
-        const res = await fetch("/api/video", {
+        console.log("Removing: ", id);
+
+        const res = await fetch("/api/videos/" + id, {
              method: "DELETE",
-             body: JSON.stringify(body)
         });
 
         if (res.status == 500) {
@@ -59,8 +57,6 @@ export default function Content({ videos }) {
             alert('Unauthorized: You must be a Content Editor to delete videos.');
             return;
         }
-
-        const data = await res.json();
 
         if (res.status == 200) {
             alert('The video has been deleted.');

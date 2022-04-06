@@ -3,7 +3,7 @@ import Layout   from "../components/Layout.js"
 
 export async function getServerSideProps(context) {
 
-    let url = "http://localhost:3000/api/video";
+    let url = "http://localhost:3000/api/videos";
     
     if (context.query.text_query) {
         url += "?text_query=" + context.query.text_query;
