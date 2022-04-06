@@ -50,7 +50,12 @@ export default connectDB(NextAuth({
                     username: user.username,
                     role: user.role,
                 };
-            }
+            } 
+            //else {
+            //     return {
+            //         ...token,
+            //     }
+            // }
             return token;
         },
         async session({ session, token }) {
