@@ -1,73 +1,69 @@
-import { promises as fs } from 'fs'
-import { IncomingForm } from 'formidable'
 
-async function uploadFileToGoogleCloud(
-    { bucketName = process.env.GOOGLE_BUCKET_NAME,
-    filePath,
-    destFileName }
-) {
-    // [START storage_upload_file]
-  /**
-   * TODO(developer): Uncomment the following lines before running the sample.
-   */
-  // The ID of your GCS bucket
-  // const bucketName = 'your-unique-bucket-name';
+async function getSignedURLForUpload(fileName, fileType) {
 
-  // The path to your file to upload
-  // const filePath = 'path/to/your/file';
+    // The ID of your GCS bucket
+    const bucketName = process.env.GOOGLE_BUCKET_NAME;
 
-  // The new ID for your GCS file
-  // const destFileName = 'your-new-file-name';
+    // Imports the Google Cloud client library
+    const { Storage } = require('@google-cloud/storage');
 
-  // Imports the Google Cloud client library
-  const { Storage} = require('@google-cloud/storage');
+    // Creates a client
+    const storage = new Storage({
+        projectId: process.env.GOOGLE_PROJECT_ID,
+        credentials: {
+            client_email: process.env.GOOGLE_CLIENT_EMAIL,
+            private_key: process.env.GOOGLE_PRIVATE_KEY
+        }
+    });
 
-  let uploaded = false;
+    async function generateV4UploadSignedUrl() {
+        // These options will allow temporary uploading of the file with outgoing
+        // Content-Type: application/octet-stream header.
+        const options = {
+            version: 'v4',
+            action: 'write',
+            expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+            contentType: fileType,
+        };
 
-  // Creates a client
-  const storage = new Storage({
-      projectId: process.env.GOOGLE_PROJECT_ID,
-      credentials: {
-          client_email: process.env.GOOGLE_CLIENT_EMAIL,
-          private_key: process.env.GOOGLE_PRIVATE_KEY
-      }
-  });
+        // Get a v4 signed URL for uploading file
+        const [url] = await storage
+            .bucket(bucketName)
+            .file(fileName)
+            .getSignedUrl(options);
 
-  async function uploadFile() {
-    try {
-        await storage.bucket(bucketName).upload(filePath, {
-        destination: destFileName,
-        });
-        console.log(`${filePath} uploaded to ${bucketName}`);
-        uploaded = true;
-    } catch (error) {
-        uploaded = false;
+        return url;
     }
-  }
 
-  await uploadFile();
-  return uploaded;
-  // [END storage_upload_file]
+    return await generateV4UploadSignedUrl()
 }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  }
-};
 
-const save_file = async (file, type, id) => {
-    try {
-        const location    = `${type + "/" + id}`;
-        const data        = await fs.readFile(file.filepath);
-        const file_write  = await fs.writeFile(location, data, { flag: 'w+' });
-        const unlink_file = await fs.unlink(file.filepath);
-        return `${file.originalFilename}`;
-    } catch(error) {
-        console.log("Error: ", error.message);
-        return "";
+async function deleteFromCloud(fileName) {
+
+    // The ID of your GCS bucket
+    const bucketName = process.env.GOOGLE_BUCKET_NAME;
+
+    // Imports the Google Cloud client library
+    const { Storage } = require('@google-cloud/storage');
+
+    // Creates a client
+    const storage = new Storage({
+        projectId: process.env.GOOGLE_PROJECT_ID,
+        credentials: {
+            client_email: process.env.GOOGLE_CLIENT_EMAIL,
+            private_key: process.env.GOOGLE_PRIVATE_KEY
+        }
+    });
+
+    async function deleteFile() {
+        await storage.bucket(bucketName).file(fileName).delete();
+        console.log(`gs://${bucketName}/${fileName} deleted`);
     }
-};
+
+    await deleteFile();
+}
+
 
 export default async (req, res) => {
 
@@ -75,7 +71,7 @@ export default async (req, res) => {
 
     if (req.method == "POST") {
 
-        const user_res = await fetch('http://localhost:3000/api/user', {
+        const user_res = await fetch(process.env.HOSTNAME + '/api/user', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -83,27 +79,49 @@ export default async (req, res) => {
             },
         });
         const user_data = await user_res.json();
+
         if (!user_data.role.content_editor) {
-            return res.status(403).send('Only Content Editors can Upload Videos.');  
+            return res.status(403).send({ error: 'Only Content Editors can Upload Videos.' });
         }
 
-        const data = await new Promise((resolve, reject) => {
-            const form = new IncomingForm()
-            form.parse(req, (err, fields, files) => {
-                if (err) return reject(err)
-                resolve({ fields, files })
-                console.log("FF: ", fields, files);
-            })
-        })
+        const { filetype, is_video } = JSON.parse(req.body);
 
-        const destFileName = data?.fields.type + '/' + vid + "." + data?.files.file.mimetype.split('/')[1];
+        const folder = is_video ? "videos/" : "thumbnails/";
+        const filename = folder + vid + '.' + filetype.split('/')[1];
 
-        const uploaded = await uploadFileToGoogleCloud({filePath: data?.files.file.filepath, destFileName: destFileName});
+        console.log('File Name: ', filename);
 
-        if (uploaded) {
-            return res.status(200).send({"uploaded": true, location: destFileName});
-        } else {
-            return res.status(500).send({"uploaded": false, location: "" });
+        try {
+            const url = await getSignedURLForUpload(filename, filetype);
+            return res.status(200).send({ success: true, upload_url: url, filename: filename});
+        } catch (error) {
+            return res.status(500).send({ success: false, upload_url: "", filename: filename, error: error.message });
+        }
+
+
+    } else if (req.method == "DELETE") {
+
+        const user_res = await fetch(process.env.HOSTNAME + '/api/user', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                cookie: req.headers.cookie,
+            },
+        });
+        const user_data = await user_res.json();
+
+        if (!user_data.role.content_editor) {
+            return res.status(403).send({ error: 'Only Content Editors can Delete Videos.' });
+        }
+
+        const { filename, thumbnail } = JSON.parse(req.body);
+
+        try {
+            await deleteFromCloud(thumbnail);
+            await deleteFromCloud(filename);
+            return res.status(200).send({ success: true, filename: filename, thumbnail: thumbnail });
+        } catch (error) {
+            return res.status(500).send({ success: false, filename: filename, thumbnail: thumbnail, error: error.message });
         }
     }
 }

@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 
 export default function UploadForm() {
+
     const [thumbnail, setThumbnail] = useState(null);
     const [video, setVideo] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
@@ -11,6 +12,10 @@ export default function UploadForm() {
     const uploadThumbnailToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             const i = event.target.files[0];
+            if (i.type.split('/')[0] != "image") {
+                alert('File type not supported: File must be an image.');
+                return
+            }
             setThumbnail(i);
             setCreateObjectURL(URL.createObjectURL(i));
         }
@@ -19,33 +24,40 @@ export default function UploadForm() {
     const uploadVideoToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             const i = event.target.files[0];
+            if (i.type.split('/')[0] != "video") {
+                alert('File type not supported: File must be a video.');
+                return
+            }
             setVideo(i);
             setCreateObjectURL(URL.createObjectURL(i));
         }
     };
 
-    const uploadThumbnailToServer = async (id) => {
-        const body = new FormData();
-        body.append("file", thumbnail);
-        body.append("type", "thumbnails");
-        const response = await fetch("/api/videos/" + id + "/upload", {
-            method: "POST",
-            body
-        });
-        const data = await response.json();
-        return data.location;
-    };
+    const uploadToServer = async (id, type) => {
 
-    const uploadVideoToServer = async (id) => {
-        const body = new FormData();
-        body.append("file", video);
-        body.append("type", "videos");
-        const response = await fetch("/api/videos/" + id + "/upload", {
+        const is_video = type == "video";
+        const file = is_video ? video : thumbnail;
+
+        const signedurl_res = await fetch(process.env.HOSTNAME + "/api/videos/" + id + "/upload", {
             method: "POST",
-            body
+            body: JSON.stringify({
+                filetype: file.type,
+                is_video: is_video 
+            })
         });
-        const data = await response.json();
-        return data.location;
+
+        const signedurl_data = await signedurl_res.json();
+        const signedurl = signedurl_data.upload_url;
+
+        const upload = await fetch(signedurl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': file.type
+            },
+            body: file 
+        });
+    
+        return signedurl_data.filename 
     };
 
     return (
@@ -58,39 +70,54 @@ export default function UploadForm() {
                     tags: Yup.string().required('Please add some tags.'),
                     video_length: Yup.number().required('Please enter the length of the video in seconds.'),
                 })}
-                onSubmit={async (values, { setSubmitting }) => {
+                onSubmit={async (values, { resetForm }) => {
+
                     console.log(JSON.stringify(values));
-                    const res = await fetch('http://localhost:3000/api/videos', {
+
+                    const res = await fetch(process.env.HOSTNAME + '/api/videos', {
                         method: 'POST',
                         body: JSON.stringify({
                             redirect: false,
                             title: values.title,
                             description: values.description,
-                             tags: values.tags.split(",").map(function(item){return item.trim()}), 
+                            tags: values.tags.split(",").map(function (item) { return item.trim() }),
                             length: values.video_length,
                             callbackUrl: `${window.location.origin}`,
                         })
                     });
                     const data = await res.json();
-                    const video_location = await uploadVideoToServer(data._id);
-                    const thumbnail_location = await uploadThumbnailToServer(data._id);
-                    if (!(video_location || thumbnail_location)) {
+                    const video_info = data.videocreated;
+
+                    const video_loc = await uploadToServer(video_info._id, "video");
+                    const thumbnail_loc = await uploadToServer(video_info._id, "thumbnail");
+
+                    console.log("Thumbnail URL: ", thumbnail_loc);
+                    console.log("Video URL: ", video_loc);
+
+                    if (!video_loc || !thumbnail_loc) {
+                        
                         alert("There was an error uploading the video.");
-                        const del_res = await fetch('http://localhost:3000/api/videos/' + data._id, {
+                        
+                        const del_res = await fetch(process.env.HOSTNAME + '/api/videos/' + video_info._id, {
                             method: 'DELETE',
                         });
                         return;
                     } else {
-                        const add_filenames = await fetch('http://localhost:3000/api/videos/' + data._id, {
+                        
+                        const add_filenames = await fetch(process.env.HOSTNAME + '/api/videos/' + video_info._id, {
                             method: 'PATCH',
                             body: JSON.stringify({
-                                filename: video_location,
-                                thumbnail: thumbnail_location
+                                filename: video_loc,
+                                thumbnail: thumbnail_loc
                             })
                         })
                     }
+
                     alert(values.title + ' has been uploaded.');
-                    setSubmitting(false);
+                    
+                    setThumbnail(null);
+                    setVideo(null);
+                    resetForm();
                 }}
             >
                 {(formik) => (
@@ -159,7 +186,7 @@ export default function UploadForm() {
                                         htmlFor="video_length"
                                         className="uppercase text-sm text-gray-600 font-bold"
                                     >
-                                        length of the video in seconds 
+                                        length of the video in seconds
                                         <Field
                                             name="video_length"
                                             aria-label="enter the length of the video in seconds"
