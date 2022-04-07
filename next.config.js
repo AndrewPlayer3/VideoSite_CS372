@@ -2,6 +2,7 @@
 module.exports = {
   reactStrictMode: true,
   env: {
+    HOSTNAME:   "http://localhost:3000",
     mongodburl: "mongodb://localhost:27017",
     NEXTAUTH_URL: "http://localhost:3000",
     JWT_SECRET: 'VerySecretString',
