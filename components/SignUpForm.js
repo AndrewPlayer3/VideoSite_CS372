@@ -27,7 +27,7 @@ export default function SignUpForm({ csrfToken }) {
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
                     console.log(JSON.stringify(values));
-                    const res = await fetch(process.env.HOSTNAME + '/api/user', {
+                    const res = await fetch(process.env.HOST_NAME + '/api/user', {
                         method: 'POST',
                         body: JSON.stringify({
                             redirect: false,
@@ -46,7 +46,7 @@ export default function SignUpForm({ csrfToken }) {
                         setError(res.error);
                     } else {
                         setError(null);
-                        router.push(process.env.HOSTNAME + '/api/auth/signin');
+                        router.push(process.env.HOST_NAME + '/api/auth/signin');
                     }
                     setSubmitting(false);
                 }}
@@ -140,30 +140,35 @@ export default function SignUpForm({ csrfToken }) {
                                         <ErrorMessage name="confirmpassword" />
                                     </div>
                                 </div>
-                                <div>
-                                    <label className='text-[#223843]'>
-                                        <div className="flex">
-                                            <div className="mr-1">
-                                                <Field type="checkbox" name="content_editor" />
-                                            </div>
-                                            <div>
-                                                Content Editor
-                                            </div>
+                                {process.env.ALLOW_ROLES == 'true' ?
+                                    <>
+                                        <div>
+                                            <label className='text-[#223843]'>
+                                                <div className="flex">
+                                                    <div className="mr-1">
+                                                        <Field type="checkbox" name="content_editor" />
+                                                    </div>
+                                                    <div>
+                                                        Content Editor
+                                                    </div>
+                                                </div>
+                                            </label>
                                         </div>
-                                    </label>
-                                </div>
-                                <div className='mb-4'>
-                                    <label className='text-[#223843]'>
-                                        <div className="flex">
-                                            <div className="mr-1">
-                                                <Field type="checkbox" name="content_manager" />
-                                            </div>
-                                            <div>
-                                                Content Manager
-                                            </div>
+                                        <div className='mb-4'>
+                                            <label className='text-[#223843]'>
+                                                <div className="flex">
+                                                    <div className="mr-1">
+                                                        <Field type="checkbox" name="content_manager" />
+                                                    </div>
+                                                    <div>
+                                                        Content Manager
+                                                    </div>
+                                                </div>
+                                            </label>
                                         </div>
-                                    </label>
-                                </div>
+                                    </>
+                                    : <></>
+                                }
                                 <div className="flex items-center justify-center">
                                     <button
                                         type="submit"

@@ -24,7 +24,6 @@ This is a basic responsive video streaming website made with NextJS, Tailwind CS
 ![FLETNIX_VIDEO_PAGE](https://user-images.githubusercontent.com/19739107/161635845-8f9e59a8-a0e7-4567-b47f-b66d760f0c9f.png)
 
 ### Content Page
-Content Editors can Upload videos and Remove videos by clicking the profile icon in the top right and selecting "Dashboard". They can then go to the content page and fill out the upload form. Once they click submit, the video should Upload. Deleting a video is as simple as clicking Delete next to the desired video on that same page.
 ![Screenshot from 2022-04-04 13-23-54](https://user-images.githubusercontent.com/19739107/161635867-9a4826ac-8532-4b6f-b901-26e7ed35357d.png)
 
 ## User stories
