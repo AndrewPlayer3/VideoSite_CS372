@@ -10,30 +10,31 @@ export default function Thumbnail({ result }) {
 
     return (
         <div className=''>
-            <div className='block m-2 cursor-pointer'>
+            <div className='block my-3 cursor-pointer transition ease-in-out hover:scale-95 focus:animate-ping'>
                 {/* Each Video Thumbnail display/ Display default thumbnail if there is none in db */}
                 <div>
                     <Link href={{ pathname: '/videos/' + result['_id'] }}>
-                        <div className='relative flex h-auto w-auto rounded-md drop-shadow-2xl hover:border-2 hover:border-opacity-0 hover:border-slate-900'>
-                            <Image
-                                layouts='fill'
-                                src={thumb_url}
-                                height='720px'
-                                width='1280px'
-                                className="rounded-md"
-                            />
-                            <div className='absolute bottom-0 right-0 opacity-70'>
-                                <DisplayRating rating={rating} />
+                        <div className='rounded-md bg-gradient-to-tr from-transparent via-transparent to-[#4A019F] p-0.5 -skew-x-2 hover:bg-[#4A019F]'>
+                            <div className='rounded-md bg-gradient-to-tr from-transparent via-transparent to-[#4A017F] p-0.5 hover:bg-[#4A017F]'>
+                                <div className='relative flex h-auto w-auto rounded-md bg-gradient-to-tr from-transparent via-transparent to-[#4A015F] p-0.5 hover:bg-[#4A015F] shadow-sm hover:shadow-2xl shadow-[#4A017F]'>
+                                    <Image
+                                        layouts='fill'
+                                        src={thumb_url}
+                                        height='720px'
+                                        width='1280px'
+                                        className="rounded-md hover:opacity-90"
+                                    />
+                                    <div className='absolute bottom-0 right-1 -skew-x-3 rounded-md opacity-100'>
+                                        <DisplayRating rating={rating} />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Link>
                 </div>
-                <div className='flex w-full h-auto items-start justify-start'>
-                    <div className='flex w-full h-auto items-center justify-start'>
-                        <p className='font-sans font-bold text-[#EFF1F3]'>{result['title']}</p>
-                    </div>
-                </div>
+                <a href={'/videos/' + result['_id']} className='pl-1 font-sans font-medium shadow-inset-xl text-[#EFF1F3]'>{result['title']}</a>
             </div>
         </div>
     )
 }
+// border-x-[#13013A] border-stone-900 to-[#13014A]

@@ -1,26 +1,46 @@
-import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
-import Sidebar from "../components/common/Sidebar/Sidebar";
 import Layout from "../components/Layout.js"
-import Profile from '../components/Profile'
+import UploadForm from "../components/UploadForm"
+import ContentPanel from "../components/ContentPanel";
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import videoQuery from './api/helpers/video_query'
 import loginStatus from '../helpers/login-status'
 
-export default function Dashboard() {
+export async function getServerSideProps(context) {
+
+    const data = await videoQuery(context);
+
+    return {
+        props: {
+            videos: data
+        },
+    }
+}
+
+export default function Content({ videos }) {
 
     const { data: session, status } = useSession();
     const router = useRouter();
 
     return (
         <>
-            {loginStatus(status, router) ?
-                <div className="flex flex-col items-center justify-center md:flex-row">
-                    <div className="relative">
-                        <Sidebar />
+            {loginStatus(status, router, true) ?
+                <>
+                    <div className="flex flex-col items-center w-screen m-auto">
+                        {session.user.role.content_editor ?
+                            <>
+                                <UploadForm />
+                                <div className='pt-8 pb-8'>
+                                    <ContentPanel videos={videos} role={session.user.role} className={'content_panel_editor'} />
+                                </div>
+                            </>
+                            :
+                            <div className='pb-8 justify-center'>
+                                <ContentPanel videos={videos} role={session.user.role} className={'content_panel_manager'} />
+                            </div>
+                        }
                     </div>
-                    <div id="myTabContent" className="absolute w-2/4 h-2/4 left-1/4 top-1/5">
-                        <Profile user={session.user} />
-                    </div>
-                </div>
+                </>
                 :
                 <></>
             }
@@ -28,4 +48,4 @@ export default function Dashboard() {
     )
 }
 
-Dashboard.layout = Layout
+Content.layout = Layout
