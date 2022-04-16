@@ -1,43 +1,52 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 import SearchBar from './SearchBar'
 import ProfileMenu from './ProfileMenu'
+import Image from 'next/image'
 
 export default function NavBar({ liveSearch }) {
-    const router = useRouter();
-    const [input, setInput] = useState('');
-
-    function onKeyDown(e) {
-        router.push(process.env.HOST_NAME + '/?title=' + input);
-        if (e.key === 'Enter') {
-            onSubmit(e);
-        }
-    }
-
-    function onSubmit(e) {
-        router.push(process.env.HOST_NAME + '/?title=' + input);
-    }
+    const [spin, setSpin] = useState(false)
 
     return (
-        <div as="nav" className="z-40 navbar">
-            <div className="max-w-7xl mx-auto ">
+        <div as="nav" className="navbar z-40">
+            <div className="mx-auto max-w-7xl ">
                 <div className="flex h-14 items-center justify-center">
                     <div className="flex items-center justify-start sm:mr-6 sm:items-stretch sm:justify-start">
-                        <div className="flex-shrink-0 flex items-center cursor-pointer hover:scale-105">
-                            <Link href='/'>
-                                <div className='flex h-auto w-auto'>
-                                    <div className='flex ml-1 items-center'>
-                                        <img
-                                            className="flex items-end justify-start bg-slate-200 rounded-md lg:block h-6 mx-1"
-                                            src={process.env.HOST_NAME + "/movie-film.png"}
+                        <div
+                            onMouseEnter={() => setSpin(true)}
+                            onMouseLeave={() => setSpin(false)}
+                            className="flex flex-shrink-0 cursor-pointer items-center hover:scale-105"
+                        >
+                            <Link href="/">
+                                <a className="flex h-auto w-auto pl-1 tablet:pl-2 xs:pl-1 xs:pr-2">
+                                    <div
+                                        className={
+                                            'ml-1 flex items-center' +
+                                            (spin
+                                                ? ' animate-[spin_1s_ease-in-out_1]'
+                                                : '')
+                                        }
+                                    >
+                                        <Image
+                                            layout="fixed"
+                                            height="25px"
+                                            width="25px"
+                                            className={
+                                                'rounded-md bg-stone-100'
+                                            }
+                                            src={
+                                                process.env.HOST_NAME +
+                                                '/movie-film.png'
+                                            }
                                             alt="Logo"
                                         />
                                     </div>
-                                    <div className='flex items-end justify-center text-2xl text-[#EFF1F3] ml-1 mr-1 tablet:hidden'>
-                                        <h1 className="font-sans font-bold">Fletnix</h1>
-                                    </div>
-                                </div>
+                                    {/* <div className="ml-1 mr-1 flex items-end justify-center text-2xl text-stone-100 tablet:hidden"> */}
+                                    <h1 className="font-sans ml-1 text-2xl font-bold text-stone-100 tablet:hidden">
+                                        Fletnix
+                                    </h1>
+                                    {/* </div> */}
+                                </a>
                             </Link>
                         </div>
                     </div>

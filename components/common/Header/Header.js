@@ -5,14 +5,15 @@ export default function Header() {
     return (
         <div>
             <Head>
-                <title key="title">
-                    {config.title}
-                </title>
-                <meta name="keywords" content="video streaming site" />
-                <link rel="shortcut icon" href="/favicon.png" />
-                <link rel="preconnect" href="https://fonts.googleapis.com"/>
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-                <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;0,900;1,100&display=swap" rel="stylesheet"/> 
+                <title key="title">{config.title}</title>
+                <meta
+                    name="keywords"
+                    content="basic video streaming site in next.js for a project"
+                />
+                <meta
+                    name="description"
+                    content="Fletnix is a basic video streaming type site, which was built using Next.js, MongoDB, and Google Cloud Storage for a project."
+                />
             </Head>
         </div>
     )
